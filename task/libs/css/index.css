@@ -1,0 +1,21 @@
+﻿body {
+    background-color:aquamarine;
+    
+}
+div
+{
+    display: inline-block;
+    border:double;
+    color:blue;
+    background-color:aqua;
+   
+    float:left;
+    height:400px;
+    width:320px;
+    
+}
+h3{
+    text-align:center;
+    color:saddlebrown;
+    text-decoration-style:wavy;
+}

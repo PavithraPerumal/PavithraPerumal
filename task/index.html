@@ -1,0 +1,230 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>GeoNamesAPIs</title>
+    <meta name="description" content="GeoNamesAPI Task">
+    <link rel="stylesheet" href="libs/css/index.css" />
+
+        
+
+</head>
+
+<body>
+    <div id="countryinfo">
+        <h3>Country Information </h3>
+
+        <select id="selCountry">
+            <option value="GB">Great Britain</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+            <option value="US">USA</option>
+        </select>
+
+        <select id="selLanguage">
+            <option value="en">English</option>
+            <option value="fr">Francais</option>
+            <option value="de">Deutsche</option>
+        </select>
+        <br />
+        <br />
+        <button id="btnRun1">Get Country Info</button>
+
+        <table>
+
+            <tr>
+                <td align="right">
+                    continent:
+                </td>
+                <td id="txtContinent">
+                </td>
+
+            </tr>
+            <tr>
+                <td align="right">	Capital:</td>
+                <td id="txtCapital"> </td>
+            </tr>
+
+            <tr>
+                <td align="right">
+                    Languages:
+                </td>
+                <td id="txtLanguages"></td>
+
+            </tr>
+
+            <tr>
+                <td align="right">
+                    Population:
+                </td>
+                <td id="txtPopulation">
+                </td>
+
+            </tr>
+            <tr>
+                <td align="right">
+                    Area (km<sup>2</sup>):
+                </td>
+                <td id="txtArea">
+                </td>
+
+            </tr>
+
+
+
+
+        </table>
+    </div><!--country info-->
+    <div id="oceaninfo">
+        <h3>Nearest Ocean </h3>
+
+        <input type="range" min="-90" max="90" step="0.00001" id="latitude" name="latitude">
+        <lable for "latitude">latitude</lable>
+        <br />
+        <input type="range" min="-180" max="180" step="0.00001" id="longitude">
+        <lable for "longitude">longitude</lable>
+        <br />
+        <button id="btnOcean">Get Ocean</button>
+        <table>
+
+            <tr>
+                <td>
+                    Latitude:
+                </td>
+                <td id="txtlatitude">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Longitude:
+                </td>
+                <td id="txtlongitude">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Ocean:
+                </td>
+                <td id="txtOcean">
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="weatherinfo">
+        <h3>Weather Information </h3>
+
+        <input type="range" min="-90" max="90" step="0.1" id="north" name="north">
+        <lable for "north">north</lable>
+        <br />
+        <input type="range" min="-90" max="90" step="0.1" id="south" name="south">
+        <lable for "south">south</lable>
+        <br />
+        <input type="range" min="-180" max="180" step="0.1" id="east" name="east">
+        <lable for "east">east</lable>
+        <br />
+        <input type="range" min="-180" max="180" step="0.1" id="west" name="west">
+        <lable for "west">west</lable>
+        <br />
+        <button id="btnWeather">Get weather Info</button>
+        <table>
+            <tr>
+                <td>North:</td>
+                <td id="txtnorth"></td>
+            </tr>
+            <tr>
+                <td>south:</td>
+                <td id="txtsouth"></td>
+            </tr>
+            <tr>
+                <td>East:</td>
+                <td id="txteast"></td>
+            </tr>
+            <tr>
+                <td>West:</td>
+                <td id="txtwest"></td>
+            </tr>
+            <tr>
+                <td>humidity:</td>
+                <td id="txthumidity"></td>
+            </tr>
+            <tr>
+                <td>windSpeed (km/hr):</td>
+                <td id="txtwindSpeed"></td>
+            </tr>
+            <tr>
+                <td>temperature (<sup>o</sup>C):</td>
+                <td id="txttemperature"></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h3>Last Earthquake </h3>
+        <input type="range" min="-90" max="90" step="0.1" id="north1" name="north1">
+        <lable for "north">north</lable>
+        <br />
+        <input type="range" min="-90" max="90" step="0.1" id="south1" name="south1">
+        <lable for "south">south</lable>
+        <br />
+        <input type="range" min="-180" max="180" step="0.1" id="east1" name="east1">
+        <lable for "east">east</lable>
+        <br />
+        <input type="range" min="-180" max="180" step="0.1" id="west1" name="west1">
+        <lable for "west">west</lable>
+        <br />
+        <button id="btnEarthquake">Get Earthquake Info</button>
+
+
+        <table>
+            <tr>
+                <td>North:</td>
+                <td id="txtnorth1"></td>
+            </tr>
+            <tr>
+                <td>south:</td>
+                <td id="txtsouth1"></td>
+            </tr>
+            <tr>
+                <td>East:</td>
+                <td id="txteast1"></td>
+            </tr>
+            <tr>
+                <td>West:</td>
+                <td id="txtwest1"></td>
+            </tr>
+            <tr>
+                <td>datetime </td>
+                <td id="txtdatetime"></td>
+            </tr>
+            <tr>
+                <td>magnitude </td>
+                <td id="txtmagnitude"></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td id="txt"></td>
+            </tr>
+        </table>
+
+
+    </div>
+
+    
+
+
+
+    <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
+    <script type="application/javascript" src="libs/js/script.js"></script>
+    <script type="application/javascript" src="libs/js/ScriptOcean.js"></script>
+    <script type="application/javascript" src="libs/js/scriptWeather.js"></script>
+    <script type="application/javascript" src="libs/js/scriptEarthquake.js"></script>
+
+</body>
+
+
+</html>
