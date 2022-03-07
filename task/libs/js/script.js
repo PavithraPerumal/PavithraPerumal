@@ -1,5 +1,3 @@
-
-
 $('#btnRun1').click(function () {
 			$.ajax({
 				url: "libs/php/getCountryInfo.php",
@@ -189,7 +187,7 @@ $('#btnEarthquake').click(function () {
 
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
-			// your error code
+			alert("error");
 		}
 	});
 

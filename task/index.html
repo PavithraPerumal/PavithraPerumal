@@ -32,7 +32,7 @@
         </select>
         <br />
         <br />
-        <button id="btnRun1">Get Country Info</button>
+        <button id="btnRun1">Submit</button>
 
         <table>
 
@@ -82,29 +82,16 @@
     <div id="oceaninfo">
         <h3>Nearest Ocean </h3>
 
-        <input type="range" min="-90" max="90" step="0.00001" id="latitude" name="latitude">
+        <input type="text" value="40.78" id="latitude" name="latitude">
         <lable for "latitude">latitude</lable>
         <br />
-        <input type="range" min="-180" max="180" step="0.00001" id="longitude">
+        <input type="text"  value="-43.55" id="longitude">
         <lable for "longitude">longitude</lable>
         <br />
-        <button id="btnOcean">Get Ocean</button>
+        <button id="btnOcean">Submit</button>
         <table>
 
-            <tr>
-                <td>
-                    Latitude:
-                </td>
-                <td id="txtlatitude">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Longitude:
-                </td>
-                <td id="txtlongitude">
-                </td>
-            </tr>
+            
             <tr>
                 <td>
                     Ocean:
@@ -119,36 +106,21 @@
     <div id="weatherinfo">
         <h3>Weather Information </h3>
 
-        <input type="range" min="-90" max="90" step="0.1" id="north" name="north">
+        <input type="text"  value="44.4"  id="north" name="north">
         <lable for "north">north</lable>
         <br />
-        <input type="range" min="-90" max="90" step="0.1" id="south" name="south">
+        <input type="text"  value="-9.9" id="south" name="south">
         <lable for "south">south</lable>
         <br />
-        <input type="range" min="-180" max="180" step="0.1" id="east" name="east">
+        <input type="text" value="-23.2"  id="east" name="east">
         <lable for "east">east</lable>
         <br />
-        <input type="range" min="-180" max="180" step="0.1" id="west" name="west">
+        <input type="text" value="55.2" id="west" name="west">
         <lable for "west">west</lable>
         <br />
-        <button id="btnWeather">Get weather Info</button>
+        <button id="btnWeather">Submit</button>
         <table>
-            <tr>
-                <td>North:</td>
-                <td id="txtnorth"></td>
-            </tr>
-            <tr>
-                <td>south:</td>
-                <td id="txtsouth"></td>
-            </tr>
-            <tr>
-                <td>East:</td>
-                <td id="txteast"></td>
-            </tr>
-            <tr>
-                <td>West:</td>
-                <td id="txtwest"></td>
-            </tr>
+            
             <tr>
                 <td>humidity:</td>
                 <td id="txthumidity"></td>
@@ -165,38 +137,23 @@
     </div>
     <div>
         <h3>Last Earthquake </h3>
-        <input type="range" min="-90" max="90" step="0.1" id="north1" name="north1">
-        <lable for "north">north</lable>
+        <input type="text" value="22.1" id="north1" name="north1">
+        <lable for "north1">north</lable>
         <br />
-        <input type="range" min="-90" max="90" step="0.1" id="south1" name="south1">
-        <lable for "south">south</lable>
+        <input type="text" value="52.1" id="south1" name="south1">
+        <lable for "south1">south</lable>
         <br />
-        <input type="range" min="-180" max="180" step="0.1" id="east1" name="east1">
-        <lable for "east">east</lable>
+        <input type="text" value="-9.1" id="east1" name="east1">
+        <lable for "east1">east</lable>
         <br />
-        <input type="range" min="-180" max="180" step="0.1" id="west1" name="west1">
-        <lable for "west">west</lable>
+        <input type="text" value="55.1" id="west1" name="west1">
+        <lable for "west1">west</lable>
         <br />
-        <button id="btnEarthquake">Get Earthquake Info</button>
+        <button id="btnEarthquake">Submit</button>
 
 
         <table>
-            <tr>
-                <td>North:</td>
-                <td id="txtnorth1"></td>
-            </tr>
-            <tr>
-                <td>south:</td>
-                <td id="txtsouth1"></td>
-            </tr>
-            <tr>
-                <td>East:</td>
-                <td id="txteast1"></td>
-            </tr>
-            <tr>
-                <td>West:</td>
-                <td id="txtwest1"></td>
-            </tr>
+           
             <tr>
                 <td>datetime </td>
                 <td id="txtdatetime"></td>
