@@ -1,0 +1,39 @@
+﻿html {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  background-color: #b09b28;
+  display: flex;
+}
+#select-country {
+  height: 100px;
+  width: 20%;
+  justify-content: center;
+}
+
+#selCountry {
+  font-size: 1.5rem;
+  border: #13905a 6px double;
+}
+
+#mapid {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+table {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.easy-button {
+  width: 3rem !important;
+  height: 3rem !important;
+  margin-top: 1.5rem !important;
+}
