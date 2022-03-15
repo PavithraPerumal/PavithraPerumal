@@ -34,10 +34,10 @@ table {
 
 
 #weather-style {
-    background-image: url(libs/img/weather6.png);
+   /* background-image: url(libs/img/weather6.png);
     background-position: right;
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: auto;*/
     font-style: italic;
 }
 

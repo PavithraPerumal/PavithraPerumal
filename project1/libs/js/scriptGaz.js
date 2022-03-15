@@ -1,12 +1,11 @@
 let country = "";
 let countryName = "";
-
 let earthQuakeMarkers = L.markerClusterGroup();
 let markersAirport = L.markerClusterGroup();
 let markersTourist = L.markerClusterGroup();
-var feature = null;
+var feature = null;//for boundary
 
-let flag = false;
+
 
 var mymap = L.map('mapid').setView([51.5015385807725, -0.147456], 6);
 
@@ -35,7 +34,6 @@ L.easyButton('<img src="libs/img/weather.png" width="40" height="40"/>', functio
 L.easyButton('<img src="libs/img/earthquake01.png" width="40" height="40"/>' , function (btn, map) {
 	showModal("earthquakeinfo");
 }).addTo(mymap);
-
 
 
 L.easyButton('<img src="libs/img/avion.png" width="40" height="40"/>', function (btn, map) {
@@ -148,10 +146,7 @@ async function showPosition(geo) {
 	var marker1 = L.marker([geo.coords.latitude, geo.coords.longitude], { icon: uIcon }).addTo(mymap);
 	marker1.bindPopup('<b>You are Here!</b>');
 
-
-	
-
-	////get country code for geo.coords.  lati and longi and call country info to update the global variables
+		////get country code for geo.coords.  lati and longi and call country info to update the global variables
 	$.ajax({
 		url: "libs/php/getCountryCode.php",
 		type: 'POST',
@@ -171,8 +166,7 @@ async function showPosition(geo) {
 				console.log("countrycode=>", result);
 			}
 
-			//countryinfo(country); 
-			
+		
 			
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
@@ -277,7 +271,7 @@ function CountryBoundary() {
 }
 
 
-////all working good !!:)
+
 function weather(north, south, east, west) {
 
 	console.log("n,s,e,w=>", north, south, east, west);
@@ -338,7 +332,7 @@ function earthquake(north, south, east, west) {
 				for (i = 0; i < eqList.length; i++) {
 					eq = eqList[i];
 					var eqIcon = L.AwesomeMarkers.icon({
-						icon: 'dot-circle-o', prefix: 'fa', markerColor: 'black'
+						icon: 'tags', prefix:"fa",  markerColor: 'black'
 					});
 					let marker2 = L.marker([eq.lat, eq.lng], { icon: eqIcon });
 					let pop = `Earthquake<br/>Date:${eq.datetime}<br/>Magnitude: ${eq.magnitude}`;
@@ -450,7 +444,7 @@ function tourist(geonameId) {
 					visit += `${tscount} : ${ts.name}<br/>`;;
 					
 						let tsIcon = L.AwesomeMarkers.icon({
-							icon: 'bank', prefix: 'fa', markerColor: 'green'
+							icon: 'fa-camera', prefix: 'fa', markerColor: 'green'
 						});
 						 marker4 = L.marker([ts.lat, ts.lng], { icon: tsIcon });
 						 pop = `Name of state: ${ts.name}`;
