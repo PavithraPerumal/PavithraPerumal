@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8">
-    <title>Gazatteer-Explore the World Map</title>
+    <title>Gazetteer-Explore the World Map</title>
     <link rel="icon" type="image/x-icon" href="libs/img/gazatteer.png">
     <meta name="description" content="GeoNamesAPI Task">
     <link rel="stylesheet" href="libs/css/styles.css" />
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="libs/css/w3css.css">
 </head>
 
 <body>
@@ -28,12 +29,12 @@
     </div>
     <div class="w3-modal" id="countryinfo">
         <div class="w3-modal-content w3-animate-bottom w3-card-4">
-            <header class="w3-container w3-teal">
+            <header class="w3-container w3-blue">
                 <span onclick="document.getElementById('countryinfo').style.display='none'"
                       class="w3-button w3-display-topright">&times;</span>
                 <h1>Country Information </h1>
             </header>
-            <div class="w3-container">
+            <div class="w3-container w3-light-blue w3-large">
                 <table>
                     <tr>
                         <td> Country:</td>
@@ -62,116 +63,132 @@
                     </tr>
                 </table>
             </div>
-            <footer class="w3-container w3-teal">
-                <p>Gazzatteer</p>
+            <footer class="w3-container w3-blue">
+                <p><i>Gazzetteer</i></p>
             </footer>
         </div>
     </div>
 
     <div class="w3-modal" id="airportinfo">
         <div class="w3-modal-content w3-animate-bottom w3-card-4">
-            <header class="w3-container w3-teal">
+            <header class="w3-container w3-blue">
                 <span onclick="document.getElementById('airportinfo').style.display='none'"
                       class="w3-button w3-display-topright">&times;</span>
-                <h1>Large Airports in </h1>
-                <h1 id="txtapcountry"></h1>
+                <h1>Large Airports in <span id="txtapcountry"></span><span><img src="libs/img/avion.png" /></span></h1>
+                
             </header>
-            <div class="w3-container">
+            <div class="w3-container w3-light-blue w3-large">
                 <div class="modalbody">
                     <h2 id="txtairport"></h2>
+                    
                 </div>
-                <div class="modalfooter">
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+
             </div>
+            <footer class="w3-container w3-blue">
+                <p><i>Gazzetteer</i></p>
+            </footer>
         </div>
     </div>
 
     <div class="w3-modal" id="touristinfo">
         <div class="w3-modal-content w3-animate-bottom w3-card-4">
-            <header class="w3-container w3-teal">
+            <header class="w3-container w3-blue">
                 <span onclick="document.getElementById('touristinfo').style.display='none'"
                       class="w3-button w3-display-topright">&times;</span>
-                <h1>Count of Tourism States  </h1>
-                
+                <h1> States Good for Tourism   </h1>
+
             </header>
-            <div class="w3-container">
+            <div class="w3-container w3-light-blue w3-large">
                 <div class="modalbody">
-                    <h1 id="txttourist"></h1>
+                    <h4 id="txttourist"></h4>
                 </div>
-                <div class="modalfooter">
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+
             </div>
+            <footer class="w3-container w3-blue">
+                <p><i>Gazzetteer</i></p>
+            </footer>
         </div>
     </div>
 
     <div class="w3-modal" id="weatherinfo">
         <div class="w3-modal-content w3-animate-bottom w3-card-4">
-            <header class="w3-container w3-teal">
+            <header class="w3-container w3-blue">
                 <span onclick="document.getElementById('weatherinfo').style.display='none'"
                       class="w3-button w3-display-topright">&times;</span>
                 <h1>Weather Report </h1>
             </header>
-            <div class="w3-container">
-                <table>
-                    <tr>
-                        <td>humidity:</td>
-                        <td id="txthumidity"></td>
-                    </tr>
-                    <tr>
-                        <td>windSpeed (km/hr):</td>
-                        <td id="txtwindSpeed"></td>
-                    </tr>
-                    <tr>
-                        <td>temperature (<sup>o</sup>C):</td>
-                        <td id="txttemperature"></td>
-                    </tr>
-                </table>
+            <div class="w3-container w3-light-blue w3-medium" id="weather-style">
+
+                <h1>
+                    <span><img class="weathericons" src="libs/img/weather.png "  /></span>
+
+                    <span id="txttemperature" class="weather-txt"></span><b><sup>o</sup>C</b>
+                </h1>
+
+                <h2>
+                    <span><img class="weathericons" src="libs/img/wind.png "  /></span>
+
+                    <span id="txtwindSpeed" ></span><b> km/hr</b>
+                    
+                </h2>
+                <h1>
+                    <span> <img class="weathericons" src="libs/img/clouds.png"  /></span>
+                    <span id="txtclouds"  >cloudy</span>
+                    
+                </h1>
+
+
+
+
+
 
             </div>
-            <footer class="w3-container w3-teal">
-                <p>Gazzatteer</p>
-            </footer>
-        </div>
+                 <footer class="w3-container w3-blue">
+                     <h4 style="font-style: italic;"> <span><img class="weathericons" src="libs/img/station.png " style="height: 5rem; width: auto; font-style: italic;" /></span>
+                     <span id="txtstationName"></span></h4>
+                     
+                 </footer>
+         </div>
     </div>
+     
+
+    
 
     <div class="w3-modal" id="earthquakeinfo">
         <div class="w3-modal-content w3-animate-bottom w3-card-4">
-            <header class="w3-container w3-teal">
+            <header class="w3-container w3-blue w3-large">
                 <span onclick="document.getElementById('earthquakeinfo').style.display='none'"
                       class="w3-button w3-display-topright">&times;</span>
-                <h1>Last Earthquake </h1>
+                <h1>Last Earthquake<span><img class="weathericons" src="libs/img/earthquake1.png " style="height:6rem;width:auto" /></span> </h1>
 
             </header>
-            <div class="w3-container">
+            <div class="w3-container w3-light-blue w3-large">
                 <table>
                     <tr>
                         <td>Datetime </td>
                         <td id="txtdatetime"></td>
-                    </tr>
-                    <tr>
+                    
                         <td>Magnitude </td>
                         <td id="txtmagnitude"></td>
                     </tr>
                     <tr>
-                        <td>Latitude </td>
+                        <td>Latitude: </td>
                         <td id="txtlatitude"></td>
-                    </tr>
-                    <tr>
-                        <td>Longitude </td>
+                    
+                        <td>Longitude: </td>
                         <td id="txtlongitude"></td>
+
                     </tr>
                 </table>
 
             </div>
-            <footer class="w3-container w3-teal">
+            <footer class="w3-container w3-blue">
                 <p>Gazzatteer</p>
             </footer>
         </div>
 
     </div>
-    
+
     <!--for loading map-->
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="

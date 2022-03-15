@@ -1,12 +1,6 @@
 let country = "";
 let countryName = "";
-let north = 59.3607741849963;
-let south = 49.9028622252397;
-let east = 1.7689121033873;
-let west = -8.61772077108559;
-let lati = 51.5015385807725;
-let longi = -0.14176521957406812;
-let geonameId = 2635167;
+
 let earthQuakeMarkers = L.markerClusterGroup();
 let markersAirport = L.markerClusterGroup();
 let markersTourist = L.markerClusterGroup();
@@ -38,7 +32,7 @@ L.easyButton('<img src="libs/img/weather.png" width="40" height="40"/>', functio
 	showModal("weatherinfo");
 }).addTo(mymap);
 
-L.easyButton('<img src="libs/img/earthquake01.png" width="40" height="40"/>', function (btn, map) {
+L.easyButton('<img src="libs/img/earthquake01.png" width="40" height="40"/>' , function (btn, map) {
 	showModal("earthquakeinfo");
 }).addTo(mymap);
 
@@ -62,11 +56,37 @@ L.control.custom({
 function showModal(modalId) {
 	document.getElementById(modalId).style.display = 'block';
 }
+// close when clicked elsewhere
+window.onclick = function (event) {
+	if (event.target == airportinfo) {
+		airportinfo.style.display = "none";
+	}
+	if (event.target == touristinfo) {
+		touristinfo.style.display = "none";
+	}
+	if (event.target == earthquakeinfo) {
+		earthquakeinfo.style.display = "none";
+	}
+	if (event.target == weatherinfo) {
+		weatherinfo.style.display = "none";
+	}
+	if (event.target == countryinfo) {
+		countryinfo.style.display = "none";
+	}
+	
+}
 
 
 
-//getting country information and updating global variables
+//getting country information , update global variables, call other functions - earthquake, airport, weather, tourism
 async function countryinfo(country = "IN") {
+	let north = 59.3607741849963;
+	let south = 49.9028622252397;
+	let east = 1.7689121033873;
+	let west = -8.61772077108559;
+	//let lati = 51.5015385807725;
+	//let longi = -0.14176521957406812;
+	let geonameId = 2635167;
 	let selectedCountry = $('#selCountry').val();
 	console.log("contry from country info", country);
 	return $.ajax({
@@ -79,21 +99,26 @@ async function countryinfo(country = "IN") {
 		},
 		success: function (result) {
 			if (result.status.name == "ok") {
+				let inf = new Intl.NumberFormat('en-US');
 				$('#txtCountry').html(result['data'][0]['countryName']);
 				$('#txtContinent').html(result['data'][0]['continentName']);
 				$('#txtCapital').html(result['data'][0]['capital']);
 				$('#txtLanguages').html(result['data'][0]['languages']);
-				$('#txtPopulation').html(result['data'][0]['population']);
-				$('#txtArea').html(result['data'][0]['areaInSqKm']);
+				$('#txtPopulation').html(inf.format(result['data'][0]['population']));
+				$('#txtArea').html(inf.format(result['data'][0]['areaInSqKm']));
 				countryName = result['data'][0]['countryName'];
 				north = result['data'][0]['north'];
 				south = result['data'][0]['south'];
 				east = result['data'][0]['east'];
 				west = result['data'][0]['west'];
 				geonameId = result['data'][0]['geonameId'];
+
 				weather(north, south, east, west);
 				earthquake(north, south, east, west);
 				tourist(geonameId);
+				airport(selectedCountry);
+				
+				
 			}
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
@@ -104,9 +129,10 @@ async function countryinfo(country = "IN") {
 	});
 };
 
+////gets called when the document is loaded- to get geolocation of the user
 function getLocation() {
 	navigator.geolocation.getCurrentPosition(showPosition);
-	console.log("from get location", lati, longi);
+	
 }
 
 async function showPosition(geo) {
@@ -120,12 +146,12 @@ async function showPosition(geo) {
 
 	});
 	var marker1 = L.marker([geo.coords.latitude, geo.coords.longitude], { icon: uIcon }).addTo(mymap);
-	marker1.bindPopup('<b>Hello world!</b><br />You are Here.');
+	marker1.bindPopup('<b>You are Here!</b>');
 
 
 	
 
-	////get coutnry code for geo.coords.  lati and longi and call country info to update the global variables
+	////get country code for geo.coords.  lati and longi and call country info to update the global variables
 	$.ajax({
 		url: "libs/php/getCountryCode.php",
 		type: 'POST',
@@ -145,12 +171,9 @@ async function showPosition(geo) {
 				console.log("countrycode=>", result);
 			}
 
-			countryinfo(country);
-			//ocean(lati, longi);
-			//weather(north, south, east, west);
-			//earthquake(north, south, east, west);
-			//airport(country);
-			//tourist(geonameId);
+			//countryinfo(country); 
+			
+			
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			console.log("failed");
@@ -163,7 +186,7 @@ async function showPosition(geo) {
 
 }
 
-
+//drop down for selection of countries
 
 function selectCountries() {
 	$.ajax({
@@ -178,13 +201,13 @@ function selectCountries() {
 		
 			let optionv = `<option value="">---Select Country---</option>`;
 			for (const c of countries) {
-				optionv += `<option value=${c['countryCode']}>${c['countryName']}(${c['countryCode']})</option>`;
+				optionv += `<option value=${c['countryCode']}>${c['countryName']}</option>`;
 			};
 			$("#selCountry").append(optionv).select();
 
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
-			// your error code 
+			
 			console.log(errorThrown);
 			console.log("failed in selection");
 			console.log(jqXHR.responseText);
@@ -196,8 +219,9 @@ function selectCountries() {
 
 };
 
-//put the boundary for country selected and call all the functions 
+//put the boundary for country selected and call country info - called when change happens in select-countries dropdown
 function CountryBoundary() {
+
 	let selectedCountry = $('#selCountry').val();
 	console.log("country selected :", selectedCountry);
 	
@@ -221,25 +245,23 @@ function CountryBoundary() {
 						'coordinates': coordinates
 					}
 				};
-				countryinfo(selectedCountry);
-				//ocean(lati, longi);
-				weather(north, south, east, west);
-				earthquake(north, south, east, west);
-				airport(selectedCountry);
-				 tourist(geonameId);
+				
+							
+				countryinfo(selectedCountry);// calls other functions
+		
 			}
 			if (feature) {
 				feature.clearLayers();
 			}
 
 
-			var myStyle = {
+			var featureStyle = {
 				"color": '#13905a',
 				"weight": 2,
 				"opacity": 1,
 			}
 
-			feature = L.geoJSON(geojsonFeature, { style: myStyle }).addTo(mymap);
+			feature = L.geoJSON(geojsonFeature, { style: featureStyle }).addTo(mymap);
 
 			var bounds = feature.getBounds();
 			mymap.fitBounds(bounds);
@@ -276,6 +298,10 @@ function weather(north, south, east, west) {
 				$('#txthumidity').html(weatherDetails.humidity);
 				$('#txtwindSpeed').html(weatherDetails.windSpeed);
 				$('#txttemperature').html(weatherDetails.temperature);
+				$('#txtstationName').html(weatherDetails.stationName);
+				$('#txtclouds').html(weatherDetails.clouds);
+				
+				
 			}
 
 		},
@@ -293,6 +319,7 @@ function weather(north, south, east, west) {
 
 function earthquake(north, south, east, west) {
 	console.log("n,s,e,w=>", north, south, east, west);
+	console.log("marker eq len", earthQuakeMarkers.getLayers().length);
 	earthQuakeMarkers.clearLayers();
 	$.ajax({
 		url: "libs/php/getEarthquakeInfo.php",
@@ -313,21 +340,19 @@ function earthquake(north, south, east, west) {
 					var eqIcon = L.AwesomeMarkers.icon({
 						icon: 'dot-circle-o', prefix: 'fa', markerColor: 'black'
 					});
-					let marker2 = L.marker([eq.lat, eq.lng], { icon: eqIcon }).addTo(mymap);
+					let marker2 = L.marker([eq.lat, eq.lng], { icon: eqIcon });
 					let pop = `Earthquake<br/>Date:${eq.datetime}<br/>Magnitude: ${eq.magnitude}`;
 					marker2.bindPopup(pop);
 					earthQuakeMarkers.addLayer(marker2);
 
 				}
-				//mymap.addLayer(marker2);s
-				//var awesomeIcons = ['font', 'cloud-download', 'medkit', 'github-alt', 'coffee', 'twitter', 'shopping-cart', 'tags', 'star'];
-				/////////////
-
-				mymap.addLayer(earthQuakeMarkers);
-				$('#txtdatetime').html(eq.datetime);
+				
+				mymap.addLayer(earthQuakeMarkers);//add markers to map
+				$('#txtdatetime').html(eq.datetime);//update data on html
 				$('#txtmagnitude').html(eq.magnitude);
 				$('#txtlatitude').html(eq.lat);
 				$('#txtlongitude').html(eq.lng);
+
 			}
 
 		},
@@ -344,8 +369,8 @@ function earthquake(north, south, east, west) {
 /////airport
 function airport(country) {
 	let apcount = 0;
-	let airports = " ";
-	let marker3;
+	let airports = " ";//stores names of all airports
+	let marker3=null;
 	let pop;
 	markersAirport.clearLayers();
 	console.log("find airport for ", country);
@@ -362,14 +387,14 @@ function airport(country) {
 				for (i = 0; i < apList.length; i++) {
 					
 						ap = apList[i];
-                    
+                    //types of airports large, medium, small
 					if ((country == ap.iso_country) && (ap.type == "large_airport") ) {
 						apcount = apcount + 1;
 						airports += `${apcount} : ${ap.name}<br/>`;
 						let apIcon = L.AwesomeMarkers.icon({
 							icon: 'plane', prefix: 'fa', markerColor: 'blue'
 						});
-						 marker3 = L.marker([ap.latitude_deg, ap.longitude_deg], { icon: apIcon }).addTo(mymap);
+						 marker3 = L.marker([ap.latitude_deg, ap.longitude_deg], { icon: apIcon });
 						 pop = `Name:${ap.name}`;
 						marker3.bindPopup(pop);
 						
@@ -388,7 +413,7 @@ function airport(country) {
 			console.log(errorThrown);
 			console.log(jqXHR.responseText);
 			console.log(textStatus);
-			//alert("No Airports in this country",country);
+			
 		}
 	});
 
@@ -411,6 +436,7 @@ function tourist(geonameId) {
 			let ts;
 			let marker4;
 			let pop;
+			let visit = "";
 			console.log(tsList);
 			 
 			
@@ -419,11 +445,14 @@ function tourist(geonameId) {
 					
 					ts = tsList[i];
 						tscount = tscount + 1;
-						console.log(ts.name);
+					//console.log(ts.name);
+					
+					visit += `${tscount} : ${ts.name}<br/>`;;
+					
 						let tsIcon = L.AwesomeMarkers.icon({
 							icon: 'bank', prefix: 'fa', markerColor: 'green'
 						});
-						 marker4 = L.marker([ts.lat, ts.lng], { icon: tsIcon }).addTo(mymap);
+						 marker4 = L.marker([ts.lat, ts.lng], { icon: tsIcon });
 						 pop = `Name of state: ${ts.name}`;
 						marker4.bindPopup(pop);
 						markersTourist.addLayer(marker4);
@@ -431,7 +460,7 @@ function tourist(geonameId) {
 				}
 			}
 				mymap.addLayer(markersTourist);
-				$('#txttourist').html(tscount);
+				$('#txttourist').html(visit);
 			
 			},
 		error: function (jqXHR, textStatus, errorThrown) {
