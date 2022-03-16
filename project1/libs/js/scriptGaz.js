@@ -250,7 +250,7 @@ function CountryBoundary() {
 
 
 			var featureStyle = {
-				"color": '#13905a',
+				"color": '#bf18b7',
 				"weight": 2,
 				"opacity": 1,
 			}
@@ -332,7 +332,7 @@ function earthquake(north, south, east, west) {
 				for (i = 0; i < eqList.length; i++) {
 					eq = eqList[i];
 					var eqIcon = L.AwesomeMarkers.icon({
-						icon: 'tags', prefix:"fa",  markerColor: 'black'
+						icon: 'fa-align-center', prefix:"fa",  markerColor: 'black'
 					});
 					let marker2 = L.marker([eq.lat, eq.lng], { icon: eqIcon });
 					let pop = `Earthquake<br/>Date:${eq.datetime}<br/>Magnitude: ${eq.magnitude}`;
@@ -386,7 +386,7 @@ function airport(country) {
 						apcount = apcount + 1;
 						airports += `${apcount} : ${ap.name}<br/>`;
 						let apIcon = L.AwesomeMarkers.icon({
-							icon: 'plane', prefix: 'fa', markerColor: 'blue'
+							icon: 'plane', prefix: 'fa', markerColor: '#f109d0'
 						});
 						 marker3 = L.marker([ap.latitude_deg, ap.longitude_deg], { icon: apIcon });
 						 pop = `Name:${ap.name}`;
@@ -444,7 +444,7 @@ function tourist(geonameId) {
 					visit += `${tscount} : ${ts.name}<br/>`;;
 					
 						let tsIcon = L.AwesomeMarkers.icon({
-							icon: 'fa-camera', prefix: 'fa', markerColor: 'green'
+							icon: 'fa-camera', prefix: 'fa', markerColor: 'orange'
 						});
 						 marker4 = L.marker([ts.lat, ts.lng], { icon: tsIcon });
 						 pop = `Name of state: ${ts.name}`;

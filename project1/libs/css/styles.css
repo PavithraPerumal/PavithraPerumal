@@ -17,7 +17,8 @@ body {
 
 #selCountry {
   font-size: 1.5rem;
-  border: #13905a 6px double;
+  border: #1333ef 6px double;
+  
 }
 
 #mapid {
@@ -34,10 +35,7 @@ table {
 
 
 #weather-style {
-   /* background-image: url(libs/img/weather6.png);
-    background-position: right;
-    background-repeat: no-repeat;
-    background-size: auto;*/
+  
     font-style: italic;
 }
 
@@ -56,4 +54,5 @@ table {
     width: 3rem !important;
     height: 3rem !important;
     margin-top: 1.5rem !important;
+    
 }
