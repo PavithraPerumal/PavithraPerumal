@@ -68,11 +68,14 @@ window.onclick = function (event) {
 	if (event.target == weatherinfo) {
 		weatherinfo.style.display = "none";
 	}
+
 	if (event.target == countryinfo) {
 		countryinfo.style.display = "none";
 	}
-	
+		
 }
+
+
 
 
 
@@ -292,7 +295,7 @@ function weather(north, south, east, west) {
 				$('#txthumidity').html(weatherDetails.humidity);
 				$('#txtwindSpeed').html(weatherDetails.windSpeed);
 				$('#txttemperature').html(weatherDetails.temperature);
-				$('#txtstationName').html(weatherDetails.stationName);
+				$('#txtstationName').html(weatherDetails.ICAO);
 				$('#txtclouds').html(weatherDetails.clouds);
 				
 				
@@ -384,7 +387,7 @@ function airport(country) {
                     //types of airports large, medium, small
 					if ((country == ap.iso_country) && (ap.type == "large_airport") ) {
 						apcount = apcount + 1;
-						airports += `${apcount} : ${ap.name}<br/>`;
+						airports += `${apcount} . ${ap.name}<br/>`;
 						let apIcon = L.AwesomeMarkers.icon({
 							icon: 'plane', prefix: 'fa', markerColor: '#f109d0'
 						});
@@ -441,7 +444,7 @@ function tourist(geonameId) {
 						tscount = tscount + 1;
 					//console.log(ts.name);
 					
-					visit += `${tscount} : ${ts.name}<br/>`;;
+					visit += `${tscount} . ${ts.name}<br/>`;;
 					
 						let tsIcon = L.AwesomeMarkers.icon({
 							icon: 'fa-camera', prefix: 'fa', markerColor: 'orange'
@@ -467,6 +470,15 @@ function tourist(geonameId) {
 }
 
 $(document).ready(function () {
+
+	$(window).on('load', function () {
+		if ($('#preloader').length) {
+			$('#preloader').delay(5500).fadeOut('slow', function () {
+				$(this).remove();
+			});
+		}
+	});
+
 	selectCountries();
 	getLocation();
 });
