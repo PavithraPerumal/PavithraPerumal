@@ -1,5 +1,6 @@
 let country = "";
 let countryName = "";
+let capital = "";
 let earthQuakeMarkers = L.markerClusterGroup();
 let markersAirport = L.markerClusterGroup();
 let markersTourist = L.markerClusterGroup();
@@ -11,7 +12,7 @@ var mymap = L.map('mapid').setView([51.5015385807725, -0.147456], 6);
 
 //const accessToken = 'B5scqZ6aUALAqFgKkvM4YCzxrTqEivwNR4oNs1LI6kKdCqVSl7oax00Ls9iSpLPK';
 
-L.tileLayer('https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+L.tileLayer('https://{s}.tile.jawg.io/jawg-light/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
 	attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 	minZoom: 0,
 	maxZoom: 20,
@@ -36,13 +37,16 @@ L.easyButton('<img src="libs/img/earthquake01.png" width="40" height="40"/>' , f
 }).addTo(mymap);
 
 
-L.easyButton('<img src="libs/img/avion.png" width="40" height="40"/>', function (btn, map) {
-	showModal("airportinfo");
+//L.easyButton('<img src="libs/img/avion.png" width="40" height="40"/>', function (btn, map) {
+//	showModal("airportinfo");
+//}).addTo(mymap);
+
+L.easyButton('<img src="libs/img/calendar.png" width="40" height="40"/>', function (btn, map) {
+	showModal("holidayinfo");
 }).addTo(mymap);
 
-L.easyButton('<img src="libs/img/folded-map.png" width="40" height="40"/>', function (btn, map) {
-	showModal("touristinfo");
-}).addTo(mymap);
+
+
 
 L.control.custom({
 	position: 'topright',
@@ -56,12 +60,11 @@ function showModal(modalId) {
 }
 // close when clicked elsewhere
 window.onclick = function (event) {
-	if (event.target == airportinfo) {
-		airportinfo.style.display = "none";
+
+	 if(event.target == holidayinfo) {
+		holidayinfo.style.display = "none";
 	}
-	if (event.target == touristinfo) {
-		touristinfo.style.display = "none";
-	}
+
 	if (event.target == earthquakeinfo) {
 		earthquakeinfo.style.display = "none";
 	}
@@ -72,9 +75,22 @@ window.onclick = function (event) {
 	if (event.target == countryinfo) {
 		countryinfo.style.display = "none";
 	}
-		
+
 }
 
+closeweather.onclick = function () {
+	document.getElementById('weatherinfo').style.display='none';
+}
+
+closeeq.onclick = function () {
+	document.getElementById('earthquakeinfo').style.display = 'none';
+}
+closeholiday.onclick = function () {
+	document.getElementById('holidayinfo').style.display = 'none';
+}
+closecc.onclick = function () {
+	document.getElementById('countryinfo').style.display = 'none';
+}
 
 
 
@@ -113,11 +129,16 @@ async function countryinfo(country = "IN") {
 				east = result['data'][0]['east'];
 				west = result['data'][0]['west'];
 				geonameId = result['data'][0]['geonameId'];
+				capital = result['data'][0]['capital'];
+				currencyCode = result['data'][0]['currencyCode'];
 
-				weather(north, south, east, west);
+
+			
 				earthquake(north, south, east, west);
 				tourist(geonameId);
 				airport(selectedCountry);
+				holiday(selectedCountry);
+				forecast(capital);
 				
 				
 			}
@@ -253,7 +274,7 @@ function CountryBoundary() {
 
 
 			var featureStyle = {
-				"color": '#bf18b7',
+				"color": '#27255a',
 				"weight": 2,
 				"opacity": 1,
 			}
@@ -275,44 +296,12 @@ function CountryBoundary() {
 
 
 
-function weather(north, south, east, west) {
 
-	console.log("n,s,e,w=>", north, south, east, west);
-	$.ajax({
-		url: "libs/php/getWeatherInfo.php",
-		type: 'POST',
-		dataType: 'json',
-		data: {
-			north,
-			south,
-			east,
-			west,
-		},
-		success: function (result) {
-			var weatherDetails = result.data;
-			console.log("hi from weather", north);
-			if (result.status.name == "ok") {
-				$('#txthumidity').html(weatherDetails.humidity);
-				$('#txtwindSpeed').html(weatherDetails.windSpeed);
-				$('#txttemperature').html(weatherDetails.temperature);
-				$('#txtstationName').html(weatherDetails.ICAO);
-				$('#txtclouds').html(weatherDetails.clouds);
-				
-				
-			}
-
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(errorThrown);
-			console.log(jqXHR.responseText);
-			console.log(textStatus);
-		}
-
-	});
-
-}
 
 // mark earth earthquakes on map
+
+
+
 
 function earthquake(north, south, east, west) {
 	console.log("n,s,e,w=>", north, south, east, west);
@@ -338,17 +327,25 @@ function earthquake(north, south, east, west) {
 						icon: 'fa-align-center', prefix:"fa",  markerColor: 'black'
 					});
 					let marker2 = L.marker([eq.lat, eq.lng], { icon: eqIcon });
-					let pop = `Earthquake<br/>Date:${eq.datetime}<br/>Magnitude: ${eq.magnitude}`;
+
+					let str = eq.datetime;
+					let date = new Date(str + "Z");
+					//console.log("UTC string:  " + date.toUTCString());
+
+					let pop = `Earthquake<br/>Date:${date.toUTCString()}<br/>Magnitude: ${eq.magnitude}`;
 					marker2.bindPopup(pop);
 					earthQuakeMarkers.addLayer(marker2);
 
 				}
 				
+				let str = eqList[0].datetime;
+				let date = new Date(str + "Z");
 				mymap.addLayer(earthQuakeMarkers);//add markers to map
-				$('#txtdatetime').html(eq.datetime);//update data on html
-				$('#txtmagnitude').html(eq.magnitude);
-				$('#txtlatitude').html(eq.lat);
-				$('#txtlongitude').html(eq.lng);
+				$('#txtdatetime').html(date.toUTCString());//update data on html
+				$('#txtmagnitude').html(eqList[0].magnitude);
+
+				$('#txtlatitude').html(eqList[0].lat);
+				$('#txtlongitude').html(eqList[0].lng);
 
 			}
 
@@ -442,15 +439,14 @@ function tourist(geonameId) {
 					
 					ts = tsList[i];
 						tscount = tscount + 1;
-					//console.log(ts.name);
 					
 					visit += `${tscount} . ${ts.name}<br/>`;;
 					
 						let tsIcon = L.AwesomeMarkers.icon({
-							icon: 'fa-camera', prefix: 'fa', markerColor: 'orange'
+							icon: 'fa-tags', prefix: 'fa', markerColor: 'orange'
 						});
 						 marker4 = L.marker([ts.lat, ts.lng], { icon: tsIcon });
-						 pop = `Name of state: ${ts.name}`;
+						 pop = `state ${ts.name}`;
 						marker4.bindPopup(pop);
 						markersTourist.addLayer(marker4);
 
@@ -468,6 +464,124 @@ function tourist(geonameId) {
 	});
 
 }
+
+
+function holiday(country) {
+
+	let currentDate = new Date();
+	let cDay = currentDate.getDate();
+	let cMonth = currentDate.getMonth() + 1;
+	let cYear = currentDate.getFullYear();
+	console.log(cDay);
+	console.log(cMonth);
+	console.log(cYear);
+
+
+	//console.log("n,s,e,w=>", north, south, east, west);
+	$.ajax({
+		url: "libs/php/getHolidayInfo.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			cMonth,
+			cYear,
+			cDay,
+			country,
+		},
+		success: function (result) {
+			let hlist = result.data;
+			let holidays="";
+			
+			if (result.status.name == "ok") {
+
+				for (i = 0; i < hlist.length; i++) {
+
+					holi = hlist[i];
+					if (holi.type == "National") {
+						
+						let d = holi.date;
+						holidays += `${holi.date_day}/${holi.date_month}       ${holi.name}<br/>`;
+
+                    }
+					
+					
+
+				
+				}
+
+			}
+			$('#txtholiday').html(holidays);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(errorThrown);
+			console.log(jqXHR.responseText);
+			console.log(textStatus);
+		}
+
+	});
+
+}
+
+//getForcastInfo.php
+function forecast(capital) {
+	console.log("capital=>", capital);
+
+	$.ajax({
+		url: "libs/php/getforcastInfo.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			capital,
+		},
+		success: function (result) {
+			let current = result.data.current;
+			console.log("max1",  result.data.current);
+			if (result.status.name == "ok") {
+				const { forecastday: [forecastDay1, forecastDay2, forecastDay3] } = result.data.forecast;
+				let max1 = forecastDay1.day.maxtemp_c;
+				let max2 = forecastDay2.day.maxtemp_c;
+				let max3 = forecastDay3.day.maxtemp_c;
+				let min1 = forecastDay1.day.mintemp_c;
+				let min2 = forecastDay2.day.mintemp_c;
+				let min3 = forecastDay3.day.mintemp_c;
+				let condition1 = forecastDay1.day.avgvis_km;
+				let condition2 = forecastDay2.day.avgvis_km;
+				let condition3 = forecastDay3.day.avgvis_km;
+				console.log("max1",forecastDay1);
+				$('#max1').html(max1);
+				$('#max2').html(max2);
+				$('#max3').html(max3);
+				$('#min3').html(min3);
+				$('#min2').html(min2);
+				$('#min1').html(min1);
+				$('#condition1').html(condition1);
+				$('#condition2').html(condition2);
+				$('#condition3').html(condition3);
+				$('#txttemperature').html(current.temp_c);
+				$('#txtwindSpeed').html(current.wind_kph);
+				$('#txthumidity').html(current.humidity);
+				$('#txtclouds').html(current.condition.text);
+				date1 = new Date(forecastDay1.date).toDateString();
+				$('#date1').html(new Date(forecastDay1.date).toDateString());
+				$('#date2').html(new Date(forecastDay2.date).toDateString());
+				$('#date3').html(new Date(forecastDay3.date).toDateString());
+				
+				
+				
+			}
+
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(errorThrown);
+			console.log(jqXHR.responseText);
+			console.log(textStatus);
+		}
+	});
+
+}
+
+
+
 
 $(document).ready(function () {
 
