@@ -258,29 +258,16 @@ $('#empInsertBtn').on('click', function () {
         }
     });
 
-    //    $('#inputDept').on('change', function(){
-    //     let selectedDept=document.getElementById('inputDept').value;
-    //     document.getElementById('inputLocation').options.length=0;
-    //     console.log("selescteddept", selectedDept);
-    //     let location =getLocationFromDept(selectedDept);
-    //     optionlv = `<option value=${location[0].id}>${location[0].name}</option>`;    
-
-    //     $("#inputLocation").append(optionlv).select();
-    //     });
-
     $('#empInsertModal').modal('show');
 })
-///////dept insert//////
-
+   
 
 $('#deptInsertBtn').on('click', function () {
 
-    //let optiondv=null;
-    // let optionlv=null;
-
+    
 
     document.getElementById('inputLocation').options.length = 0;
-    //document.getElementById('inputLocation').options.length=0;
+
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
@@ -307,7 +294,7 @@ $('#deptInsertBtn').on('click', function () {
 
     $('#deptInsertModal').modal('show');
 })
-/////////////////////
+///////////location insert//////////
 
 $('#locInsertBtn').on('click', function () {
     $('#locInsertModal').modal('show');
@@ -316,10 +303,16 @@ $('#locInsertBtn').on('click', function () {
 
 
 /////insert location to db
-$('#locSubmitBtn').on('click', function () {
-    var locToInsert = $('#locName').val();//.options.length=0;
+
+$("#locInsertForm").submit(function(event) {
+
+    event.preventDefault();
+
+    $('#locInsertModal').modal('hide');
+    
+    var locToInsert = $('#locName').val();
     console.log("inserting location", locToInsert);
-    //document.getElementById('inputLocation').options.length=0;
+   
     $.ajax({
         url: './assets/dist/php/insertLocation.php',
         type: 'POST',
@@ -328,7 +321,6 @@ $('#locSubmitBtn').on('click', function () {
         },
         success: (response) => {
             if (response.status.name == "ok") {
-                alert("inserted record successfully");
 
                 generateLocTable();
             }
@@ -342,57 +334,65 @@ $('#locSubmitBtn').on('click', function () {
         }
     });
 
-
+    document.getElementById("locInsertForm").reset();
 })
 
 
 //////////////inserting employee to db///////
 
-$('#empSubmitBtn').on('click', function () {
-    console.log($('#inputFN').val());
-    console.log($('#inputLN').val());
-    console.log($('#inputEmail').val());
-    let fname = $('#inputFN').val();
-    let lname = $('#inputLN').val();//document.getElementById('inputLN');
-    let email = $('#inputEmail').val();//document.getElementById('inputEmail');
-    let departmentID = $('#inputDept').val();
+$("#empInsertForm").submit(function(event) {
 
-    // $('#message').val("New Employee details entered successfully");
-    //             $('#messageModal').modal('show');
-    console.log("to insert fname,lname,email,departmentID: ", fname, lname, email, departmentID);
-    ////insert to db
-    $.ajax({
-        url: './assets/dist/php/insertPersonnel.php',
-        type: 'POST',
-        data: {
-            firstName: fname,
-            lastName: lname,
-            email: email,
-            departmentID: departmentID,
-        },
-        success: (response) => {
-            if (response.status.name == 'ok') {
-                $('#message').val("New Employee details entered successfully");
-                $('#messageModal').modal('show');
-                generateEmpTable();
-                alert("inserted");
+    event.preventDefault();
+
+    $('#empInsertModal').modal('hide');
+   
+
+        console.log($('#inputFN').val());
+        console.log($('#inputLN').val());
+        console.log($('#inputEmail').val());
+        let fname = $('#inputFN').val();
+        let lname = $('#inputLN').val();//document.getElementById('inputLN');
+        let email = $('#inputEmail').val();//document.getElementById('inputEmail');
+        let departmentID = $('#inputDept').val();
+    
+        
+        console.log("to insert fname,lname,email,departmentID: ", fname, lname, email, departmentID);
+        ////insert to db
+        $.ajax({
+            url: './assets/dist/php/insertPersonnel.php',
+            type: 'POST',
+            data: {
+                firstName: fname,
+                lastName: lname,
+                email: email,
+                departmentID: departmentID,
+            },
+            success: (response) => {
+                if (response.status.name == 'ok') {
+                   
+                    generateEmpTable();
+                   
+                }
+    
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("failed");
+                console.log(errorThrown);
+                console.log(jqXHR.responseText);
+                console.log(textStatus);
             }
-
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("failed");
-            console.log(errorThrown);
-            console.log(jqXHR.responseText);
-            console.log(textStatus);
-        }
-    });
-
-
-
+        });
+        document.getElementById("empInsertForm").reset();
 })
-///dept inserting
-$('#deptSubmitBtn').on('click', function () {
 
+    
+///dept inserting
+
+$("#deptInsertForm").submit(function(event) {
+
+    event.preventDefault();
+    $('#deptInsertModal').modal('hide');
+   
     let name = $('#deptName').val();
 
 
@@ -411,8 +411,7 @@ $('#deptSubmitBtn').on('click', function () {
         },
         success: (response) => {
             if (response.status.name == 'ok') {
-                $('#message').html("New department details entered successfully!!");
-                $('#messageModal').modal('show');
+               
                 generateDeptTable();
             }
 
@@ -426,7 +425,7 @@ $('#deptSubmitBtn').on('click', function () {
         }
     });
 
-
+    document.getElementById("deptInsertForm").reset();
 
 })
 ////searching personnel
@@ -497,70 +496,7 @@ $('#deptToSearch').on('change', function () {
 
 
 
-// ////insert department to db
-// $('#deptSubmitBtn').on('click', function(){
 
-//     let name =document.getElementById('deptName');
-
-
-//     let locID=document.getElementById('inputLocation').value; 
-
-
-//     console.log("to insert department name, locid: ",name,locID);
-
-//     $.ajax({
-//         url: './assets/dist/php/insertDepartment.php',
-//         type: 'POST',
-//         data: { 
-//             name:name,
-//             locID:locID,
-
-//         },
-//         success: (response) => {
-//             if(response.status.name=='ok'){
-//                 $('#message').html("New department details entered successfully!!");
-//                 $('#messageModal').modal('show');
-//             }
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-
-//             console.log("failed");
-//             console.log(errorThrown);
-//             console.log(jqXHR.responseText);
-//             console.log(textStatus);
-//         }
-//     });
-// })
-
-//////searching dept
-// $('#deptToSearch').on('change', function () {
-//     let search = document.getElementById('deptToSearch');
-//     // search="%"+search+"%";
-//     $.ajax({
-//         url: './assets/dist/php/searchDept.php',
-//         type: 'POST',
-//         data: {
-//             id: search
-//         },
-//         success: (response) => {
-//             console.log("seacrch dept result", response.data);
-//             let tableDetails = response.data;
-//             const {
-//                 tableHeaders,
-//                 tableBody
-//             } = generateRows(tableDetails, ['Department', 'Location']);
-//             $('#departmentTable').append(tableHeaders);
-//             $('#departmentTable').append(tableBody);
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.log("failed");
-//             console.log(errorThrown);
-//             console.log(jqXHR.responseText);
-//             console.log(textStatus);
-//         }
-//     });
-
-// })
 //////updating personnel names,email
 
 function updatePersonnel(details) {
@@ -575,10 +511,9 @@ function updatePersonnel(details) {
     $('#updateFN').val(fname);
     $('#updateLN').val(lname);
     $('#updateEmail').val(email);
-    // $('#updateDept').val(department);
-    ///dropdown for dept
+    
     document.getElementById('updateDept').options.length = 0;
-    //document.getElementById('inputLocation').options.length=0;
+    
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
@@ -608,6 +543,8 @@ function updatePersonnel(details) {
 
 
     $('#empUpdateYes').on('click', function () {
+
+
         let deptid = document.getElementById('updateDept').value;
         if (deptid === null) {
             deptid = department;
@@ -647,8 +584,8 @@ function updatePersonnel(details) {
         });
     });//onclickend
 
-
 }
+
 
 ///update department
 function updateDepartment(details) {
@@ -657,8 +594,7 @@ function updateDepartment(details) {
     const Location = details["lId"];
     $('#updatedeptname').val(Department);
     $('#currentLocation').val(Location);
-   // $('#updateNewLocation').val(Location);
-    /////
+  
     document.getElementById('updateNewLocation').options.length = 0;
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
@@ -687,7 +623,7 @@ function updateDepartment(details) {
     /////
     $('#deptUpdateModal').modal('show');
     //get new values fro update modal and send to php for query on click of updateyes
-
+}
     $('#updateYes').on("click", function () {
 
         let name = $('#updatedeptname').val();
@@ -726,7 +662,7 @@ function updateDepartment(details) {
     });
 
 
-}
+
 
 ////loc update start
 function updateLocation(details) {

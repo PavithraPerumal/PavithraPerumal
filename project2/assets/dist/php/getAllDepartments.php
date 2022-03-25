@@ -37,7 +37,7 @@
 	//
 	//$query1 = 'SELECT a.id, a.name, a.locationID, l.name FROM department a LEFT JOIN location l on (a.id=l.locationID)';
 	$query1= 'SELECT d.id as id, d.name as Department, l.name as Location, l.id as lId FROM department d LEFT JOIN location l ON (l.id = d.locationID)
-	ORDER BY d.id, d.name, l.name ';
+	ORDER BY d.name, d.id, l.name ';
 	
 	$result1 = $conn->query($query1);
 	if (!$result1) {
@@ -57,7 +57,7 @@
 ///location
 
 //$query2 = 'SELECT id, name, l.name as location FROM department d LEFT JOIN location l ON(l.id=d.locationID)';
-	$query2 = 'SELECT id, name FROM location';
+	$query2 = 'SELECT id, name FROM location ORDER BY name';
 
 $result2 = $conn->query($query2);
 if (!$result2) {
