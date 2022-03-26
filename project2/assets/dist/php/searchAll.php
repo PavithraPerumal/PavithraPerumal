@@ -37,7 +37,7 @@
 
 	//$query = $conn->prepare('SELECT id, name FROM location WHERE id =  ?');
 
-	$query = $conn->prepare('SELECT p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
+	$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
 	//$query = $conn->prepare('SELECT d.id as id, d.name as Department, l.name as Location FROM department d LEFT JOIN location l ON (l.id = d.locationID)
 	//Where d.name like ?');
 	//$query1= 'SELECT d.id as id, d.name as Department, l.name as Location FROM department d LEFT JOIN location l ON (l.id = d.locationID)

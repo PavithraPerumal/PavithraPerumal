@@ -36,7 +36,7 @@
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
 	//$query = $conn->prepare('SELECT id, name FROM location WHERE id =  ?');
-	$query = $conn->prepare('SELECT d.id as id, d.name as Department, l.name as Location FROM department d LEFT JOIN location l ON (l.id = d.locationID) Where d.name LIKE ?');
+	$query = $conn->prepare('SELECT d.id as id, l.id as lID, d.name as Department, l.name as Location FROM department d LEFT JOIN location l ON (l.id = d.locationID) Where d.name LIKE ? ORDER BY d.name');
 	//$query1= 'SELECT d.id as id, d.name as Department, l.name as Location FROM department d LEFT JOIN location l ON (l.id = d.locationID)
 	//ORDER BY d.id, d.name, l.name ';
 

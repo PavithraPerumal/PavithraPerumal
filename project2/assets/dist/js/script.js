@@ -222,6 +222,68 @@ function generateLocTable() {
     });
 
 }
+$('#filterDeptBtn').on('click',function(){
+    document.getElementById('filterDept').options.length = 0;
+    //document.getElementById('inputLocation').options.length=0;
+    $.ajax({
+        url: './assets/dist/php/getAllDepartments.php',
+        type: 'POST',
+        success: (response) => {
+            console.log("filter alldept", response.data.dept);
+            let departments = response.data.dept;
+            let optiondv = `<option value="-1">---Select Department---</option>`;
+            departments.forEach(d => {
+                console.log(d.department);
+                optiondv += `<option value=${d.id}>${d.Department}</option>`;
+            });
+
+            $("#filterDept").append(optiondv).select();
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            console.log("failed");
+            console.log(errorThrown);
+            console.log(jqXHR.responseText);
+            console.log(textStatus);
+        }
+    });
+    $('#deptfilterModal').modal('show');
+})
+
+$('#filterDept').on('change',function(){
+    document.getElementById('employeeTable').length = 0;
+    let deptID = $(this).val();
+    if(deptID==-1){
+        generateEmpTable();
+        return;
+    }
+    
+    $.ajax({
+        url: './assets/dist/php/filterDepartment.php',
+        type: 'POST',
+        data: {
+            deptID: deptID,
+        },
+        success: (response) => {
+            console.log("seacrch names result", response.data);
+            let tableDetails = response.data;
+            const {
+                tableHeaders,
+                tableBody
+            } = generateTable(tableDetails, ['firstName', 'lastName', 'email', 'department', 'location'], type = "emp");
+            $('#employeeTable').empty();
+            $('#employeeTable').append(tableHeaders);
+            $('#employeeTable').append(tableBody);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("failed");
+            console.log(errorThrown);
+            console.log(jqXHR.responseText);
+            console.log(textStatus);
+        }
+    });
+})//filterdept
 
 ///////////////Employee////////////////
 
@@ -478,7 +540,7 @@ $('#deptToSearch').on('change', function () {
             const {
                 tableHeaders,
                 tableBody
-            } = generateTable(tableDetails, ['Department', 'Location']);
+            } = generateTable(tableDetails, ['Department', 'Location'],type = "dept");
             $('#departmentTable').empty();
             $('#departmentTable').append(tableHeaders);
             $('#departmentTable').append(tableBody);
@@ -506,8 +568,8 @@ function updatePersonnel(details) {
     let fname = details['firstName'];
     let lname = details['lastName'];//document.getElementById('inputLN');
     let email = details['email'];//document.getElementById('inputEmail');
-    let department = details['dId'];
-    console.log("update emp for ", fname, lname, id);
+    let department = details['dID'];
+    console.log("update emp for ", fname, lname, department);
     $('#updateFN').val(fname);
     $('#updateLN').val(lname);
     $('#updateEmail').val(email);
@@ -538,7 +600,8 @@ function updatePersonnel(details) {
             console.log(textStatus);
         }
     });
-    ///
+
+    /// 
     $('#empUpdateModal').modal('show');
 
 
@@ -546,13 +609,10 @@ function updatePersonnel(details) {
 
 
         let deptid = document.getElementById('updateDept').value;
-        if (deptid === null) {
-            deptid = department;
-        }
         fname = $('#updateFN').val();
         lname = $('#updateLN').val();//document.getElementById('inputLN');
         email = $('#updateEmail').val();//document.getElementById('inputEmail');
-        console.log("updating emp", fname, lname, email, department, id);
+        console.log("updating emp", fname, lname, email,id, deptid);
         $.ajax({
             url: './assets/dist/php/updatePersonnel.php',
             type: 'POST',
@@ -591,7 +651,7 @@ function updatePersonnel(details) {
 function updateDepartment(details) {
     let id = details['id'];
     const Department = details["Department"];
-    const Location = details["lId"];
+    const Location = details["lID"];
     $('#updatedeptname').val(Department);
     $('#currentLocation').val(Location);
   
@@ -623,14 +683,12 @@ function updateDepartment(details) {
     /////
     $('#deptUpdateModal').modal('show');
     //get new values fro update modal and send to php for query on click of updateyes
-}
+
     $('#updateYes').on("click", function () {
 
         let name = $('#updatedeptname').val();
         let locationID = document.getElementById('updateNewLocation').value;
-        if (locationID === null) {
-            locationID = Location;
-        }
+       
         console.log("updating ", name, locationID, id);
         $.ajax({
             url: './assets/dist/php/updateDepartment.php',
@@ -662,7 +720,7 @@ function updateDepartment(details) {
     });
 
 
-
+}
 
 ////loc update start
 function updateLocation(details) {

@@ -68,6 +68,16 @@
                 <!-- <button type="button" data-bs-toggle="tootip" data-target="#empInsertModal">Insert Employee</button> -->
                 <button type="button" class="btn btn-primary" id="empInsertBtn" role="button" data-bs-toggle="tootip"
                   data-target="#empInsertModal" title="Insert"><i class="bi bi-plus-square-fill" ></i></button>
+                
+              </form>
+              <form class="form-inline">
+               <button type="button" class="btn btn-primary" id="filterDeptBtn" role="button" data-bs-toggle="tootip"
+               data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-funnel-fill"></i></button>
+               
+                <!-- <label for="filterDept">Filter Department</label>
+                <select id="filterDept" class="form-select" required> -->
+
+                </select>o
               </form>
               <form class="form-inline">
 
@@ -79,7 +89,7 @@
                     aria-label="Username" aria-describedby="basic-addon1">
                 </div>
               </form>
-
+              
 
             </nav>
             <table id="employeeTable" class="table table-dark table-striped table-bordered m-10">
@@ -93,6 +103,7 @@
               <form class="form-inline">
                 <button type="button" class="btn btn-primary" id="deptInsertBtn" role="button" data-bs-toggle="collapse"
                   data-target="#deptInsertModal" title="Insert"><i class="bi bi-plus-square-fill"></i></button>
+                  
               </form>
               <form class="form-inline">
 
@@ -140,11 +151,11 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputFN">FirstName</label>
-                    <input type="text" class="form-control" id="inputFN" placeholder="FirstName"  pattern="[a-zA-Z]{1,20}"title="letters only" required>
+                    <input type="text" class="form-control" id="inputFN" placeholder="FirstName"  pattern="[a-zA-Z]{1,20}"title="letters only(max 20)" required>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputLN">LastName</label>
-                    <input type="text" class="form-control" id="inputLN" placeholder="LastName" pattern="[a-zA-Z]{1,20}" title="letters only"required>
+                    <input type="text" class="form-control" id="inputLN" placeholder="LastName" pattern="[a-zA-Z]{1,20}" title="letters only(max 20)"required>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -197,7 +208,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="deptName">Name</label>
-                    <input type="text" class="form-control" id="deptName" placeholder="Name" pattern="[a-z0-9]{1-20}" title="letters only" required>
+                    <input type="text" class="form-control" id="deptName" placeholder="Name" pattern="[a-z]{1-20}" title="letters only(max 20)" required>
                   </div>
 
                 </div>
@@ -265,19 +276,19 @@
                 <div class="form-group row">
                   <label for="updateFN" class="col-sm-2 col-form-label formlabelBold">First Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="updateFN" pattern="[a-zA-Z]{1-30}" title="letters only">
+                    <input type="text" class="form-control" id="updateFN" >
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="updateLN" class="col-sm-2 col-form-label formlabelBold">Last Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="updateLN" pattern="[a-zA-Z]{1-30}" title="letters only">
+                    <input type="text" class="form-control" id="updateLN" >
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="updateEmail" class="col-sm-2 col-form-label formlabelBold">Email</label>
                   <div class="col-sm-10">
-                    <input type="email" class="form-control" id="updateEmail" placeholder="Enter Email id (Eg:abc@xyz)" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                    <input type="email" class="form-control" id="updateEmail" placeholder="Enter Email id (Eg:abc@xyz)" >
                   </div>
                 </div>
                 <div class="form-group row">
@@ -288,7 +299,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="empUpdateYes" >Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </form>
             </div>
            
@@ -310,7 +321,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="updatedeptname">Name</label>
-                    <input type="text" class="form-control" id="updatedeptname" pattern="[a-zA-Z]{1-30}" title="letters only">
+                    <input type="text" class="form-control" id="updatedeptname" >
                   </div>
                   <!-- </div> -->
 
@@ -346,7 +357,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="updatelocname">Name</label>
-                    <input type="text" class="form-control" id="updatelocname"  pattern="[a-zA-Z]{1-30}" title="letters only">
+                    <input type="text" class="form-control" id="updatelocname"  >
                   </div>
 
                 </div>
@@ -443,6 +454,34 @@
               <button type="button" id="locdeleteYes" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
             </div>
+          </div>
+        </div>
+      </div>
+      <!--fitler by dept-->
+      <div class="modal" id="deptfilterModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Filter Department</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="needs-validation" id="deptInsertForm">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                  <label for="filterDept">Department</label>
+                  <select id="filterDept" class="form-select" required>
+                  </select>
+                </div>  
+
+              </form>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" id="saveEmpInsert"class="btn btn-primary">Save changes</button>
+              
+            </div> -->
           </div>
         </div>
       </div>
