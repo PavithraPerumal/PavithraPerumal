@@ -25,7 +25,7 @@
   <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container">
-        <a href="#" class="navbar-brand d-flex align-items-center">
+        <a href="#" class="navbar-brand d-flex align-items-left">
           
           <strong>Company Directory Portal</strong>
         </a>
@@ -64,20 +64,24 @@
           <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="home-tab">
             <nav class="navbar navbar-dark bg-dark p-2">
               <!-- Navbar content -->
+
+              <form class="form-inline">
+                <!-- <button type="button" data-bs-toggle="tootip" data-target="#empInsertModal">Insert Employee</button> -->
+                <button type="button" class="btn btn-primary" id="refreshE" role="button" 
+                   title="Refresh"><i class="bi bi-arrow-clockwise"></i></button>
+               </form>
+
               <form class="form-inline">
                 <!-- <button type="button" data-bs-toggle="tootip" data-target="#empInsertModal">Insert Employee</button> -->
                 <button type="button" class="btn btn-primary" id="empInsertBtn" role="button" data-bs-toggle="tootip"
                   data-target="#empInsertModal" title="Insert"><i class="bi bi-plus-square-fill" ></i></button>
-                
-              </form>
+               </form>
+
               <form class="form-inline">
                <button type="button" class="btn btn-primary" id="filterDeptBtn" role="button" data-bs-toggle="tootip"
                data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-funnel-fill"></i></button>
                
-                <!-- <label for="filterDept">Filter Department</label>
-                <select id="filterDept" class="form-select" required> -->
-
-                </select>o
+               
               </form>
               <form class="form-inline">
 
@@ -97,9 +101,15 @@
 
           </div>
           <!---department-->
-          <div class="tab-pane fade active" id="department" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="tab-pane fade " id="department" role="tabpanel" aria-labelledby="profile-tab">
 
             <nav class="navbar navbar-dark bg-dark p-2">
+              <form class="form-inline">
+                <!-- <button type="button" data-bs-toggle="tootip" data-target="#empInsertModal">Insert Employee</button> -->
+                <button type="button" class="btn btn-primary" id="refreshD" role="button" 
+                   title="Refresh"><i class="bi bi-arrow-clockwise"></i></button>
+               </form>
+
               <form class="form-inline">
                 <button type="button" class="btn btn-primary" id="deptInsertBtn" role="button" data-bs-toggle="collapse"
                   data-target="#deptInsertModal" title="Insert"><i class="bi bi-plus-square-fill"></i></button>
@@ -387,7 +397,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <p id="message"></p>
+              <h3 id="message"></h3>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -468,7 +478,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="deptInsertForm">
+              <form class="needs-validation" id="deptFilterForm">
                 <div class="form-row">
                   <div class="form-group col-md-6">
                   <label for="filterDept">Department</label>

@@ -103,7 +103,9 @@ tr > td {
 .form-group {
   margin-bottom: 1rem;
 }
-
-/* #inputDept {
+.navbar{
+  align-items:flex-start;
+}
+/* #inputDept { 
   width: 21rem;
 } */

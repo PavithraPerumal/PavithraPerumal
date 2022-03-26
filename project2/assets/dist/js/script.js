@@ -131,8 +131,27 @@ $(document).ready(function () {
     generateEmpTable();
     generateDeptTable();
     generateLocTable();
-
+  
 });
+$('#refreshE').on('click',function(){
+    $('#employeeTable').empty();
+    $('#departmentTable').empty();
+    $('#locationTable').empty();
+    generateEmpTable();
+    generateDeptTable();
+    generateLocTable()
+})
+
+
+$('#refreshD').on('click',function(){
+    $('#employeeTable').empty();
+    $('#departmentTable').empty();
+    $('#locationTable').empty();
+    generateEmpTable();
+    generateDeptTable();
+    generateLocTable();
+})
+
 
 function generateEmpTable() {
     const type = "emp";
@@ -253,8 +272,8 @@ $('#filterDeptBtn').on('click',function(){
 
 $('#filterDept').on('change',function(){
     document.getElementById('employeeTable').length = 0;
-    let deptID = $(this).val();
-    if(deptID==-1){
+    let deptID = $('#filterDept').val();// $(this).val();
+    if(deptID=="-1"){
         generateEmpTable();
         return;
     }
@@ -275,6 +294,7 @@ $('#filterDept').on('change',function(){
             $('#employeeTable').empty();
             $('#employeeTable').append(tableHeaders);
             $('#employeeTable').append(tableBody);
+           
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("failed");
@@ -283,6 +303,7 @@ $('#filterDept').on('change',function(){
             console.log(textStatus);
         }
     });
+    
 })//filterdept
 
 ///////////////Employee////////////////
@@ -336,7 +357,7 @@ $('#deptInsertBtn').on('click', function () {
         success: (response) => {
             console.log("alldept", response.data.loc);
             let locations = response.data.loc;
-            let optionlv = `<option value="">---Select Department---</option>`;
+            let optionlv = `<option value="">---Select Location---</option>`;
             locations.forEach(l => {
                 console.log(l.name);
                 optionlv += `<option value=${l.id}>${l.name}</option>`;
@@ -492,7 +513,7 @@ $("#deptInsertForm").submit(function(event) {
 })
 ////searching personnel
 
-$('#nameToSearch').on('change', function () {
+$('#nameToSearch').bind("keypress change", function () {
     // let search = "Sales";//document.getElementById('nameToSearch');
     // search="%"+search+"%";
     document.getElementById('employeeTable').length = 0;
@@ -525,7 +546,7 @@ $('#nameToSearch').on('change', function () {
 
 })
 //////searching dept
-$('#deptToSearch').on('change', function () {
+$('#deptToSearch').bind('keypress change', function () {
     let s = $(this).val();
     let search = s.toUpperCase();
     $.ajax({
@@ -783,7 +804,7 @@ function deleteFromPersonnel(details) {
     n += " ";
     n += details['lastName'];
     n += " ?";
-    $('#alertMessageE').html("Do you Want to delete  personnel record of ");
+    $('#alertMessageE').html("Do you want to delete  personnel record of ");
     $('#deleteObjectE').html(n);
     $('#alertModalE').modal('show');
 
@@ -863,7 +884,7 @@ function deleteFromLocation(details) {
 
     let id = details['id'];
     let d = details['name'];
-    $('#alertMessageL').html("Do you Want to delete the Location record:");
+    $('#alertMessageL').html("Do you ant to delete the Location record:");
     $('#deleteObjectL').html(d);
     $('#alertModalL').modal('show');
 
