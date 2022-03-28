@@ -243,6 +243,7 @@ function generateLocTable() {
 }
 $('#filterDeptBtn').on('click',function(){
     document.getElementById('filterDept').options.length = 0;
+   
     //document.getElementById('inputLocation').options.length=0;
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
@@ -273,6 +274,9 @@ $('#filterDeptBtn').on('click',function(){
 $('#filterDept').on('change',function(){
     document.getElementById('employeeTable').length = 0;
     let deptID = $('#filterDept').val();// $(this).val();
+    let searchStr=$('#nameToSearch').val();
+    searchStr=searchStr.toUpperCase();
+    console.log("search name",searchStr);
     if(deptID=="-1"){
         generateEmpTable();
         return;
@@ -283,6 +287,7 @@ $('#filterDept').on('change',function(){
         type: 'POST',
         data: {
             deptID: deptID,
+            searchStr:searchStr
         },
         success: (response) => {
             console.log("seacrch names result", response.data);
@@ -306,17 +311,85 @@ $('#filterDept').on('change',function(){
     
 })//filterdept
 
+
+///filter by location
+
+
+$('#filterLocBtn').on('click',function(){
+    document.getElementById('filterLoc').options.length = 0;
+       $.ajax({
+        url: './assets/dist/php/getAllDepartments.php',
+        type: 'POST',
+        success: (response) => {
+            console.log("filter all location", response.data.loc);
+            let locations = response.data.loc;
+            let optionlv = `<option value="">---Select Location---</option>`;
+            locations.forEach(l => {
+                console.log(l.name);
+                optionlv += `<option value=${l.id}>${l.name}</option>`;
+            });
+
+            $("#filterLoc").append(optionlv).select();
+            console.log(optionlv);
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            console.log("failed");
+            console.log(errorThrown);
+            console.log(jqXHR.responseText);
+            console.log(textStatus);
+        }
+    });
+    $('#locfilterModal').modal('show');
+    console.log("modal shown");
+})
+
+$('#filterLoc').on('change',function(){
+    document.getElementById('employeeTable').length = 0;
+    let locID = $('#filterLoc').val();// $(this).val();
+    let searchStr=$('#nameToSearch').val();
+    searchStr=searchStr.toUpperCase();
+    console.log("search name",searchStr);
+    if(locID=="-1"){
+        generateEmpTable();
+        return;
+    }
+    
+    $.ajax({
+        url: './assets/dist/php/filterLocation.php',
+        type: 'POST',
+        data: {
+            locID: locID,
+            searchStr:searchStr
+        },
+        success: (response) => {
+            console.log("seacrch names result", response.data);
+            let tableDetails = response.data;
+            const {
+                tableHeaders,
+                tableBody
+            } = generateTable(tableDetails, ['firstName', 'lastName', 'email', 'department', 'location'], type = "emp");
+            $('#employeeTable').empty();
+            $('#employeeTable').append(tableHeaders);
+            $('#employeeTable').append(tableBody);
+           
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("failed");
+            console.log(errorThrown);
+            console.log(jqXHR.responseText);
+            console.log(textStatus);
+        }
+    });
+    
+})//filter location
 ///////////////Employee////////////////
 
 ////////populatedept select drop down
 $('#empInsertBtn').on('click', function () {
 
-    //let optiondv=null;
-    // let optionlv=null;
-
-
     document.getElementById('inputDept').options.length = 0;
-    //document.getElementById('inputLocation').options.length=0;
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
@@ -355,7 +428,7 @@ $('#deptInsertBtn').on('click', function () {
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("alldept", response.data.loc);
+            console.log("all locations", response.data.loc);
             let locations = response.data.loc;
             let optionlv = `<option value="">---Select Location---</option>`;
             locations.forEach(l => {
@@ -548,6 +621,8 @@ $('#nameToSearch').bind("keypress change", function () {
 //////searching dept
 $('#deptToSearch').bind('keypress change', function () {
     let s = $(this).val();
+    let filt=$('#filterDept').val();
+    console.log("dept filter",filt);
     let search = s.toUpperCase();
     $.ajax({
         url: './assets/dist/php/searchDept.php',
@@ -838,7 +913,7 @@ function deleteFromDepartment(details) {
 
     let id = details['id'];
     let d = details['Department'];
-    $('#alertMessageD').html("Do you Want to delete the Department record of");
+    $('#alertMessageD').html("Do you want to delete the Department record of");
     $('#deleteObjectD').html(d);
     $('#alertModalD').modal('show');
 
@@ -852,7 +927,7 @@ function deleteFromDepartment(details) {
             success: (response) => {
 
                 if (response.data == -1) {
-                    $('#message').html("Deptartment deleted Successfully");
+                    $('#message').html("Department deleted Successfully");
                     $('#messageModal').modal('show');
                     generateDeptTable();
                 }
@@ -860,7 +935,7 @@ function deleteFromDepartment(details) {
                     console.log("dependents", response.data);
                     let m = "Cannot delete department, ";
                     m += response.data;
-                    m += "  employees are attached to it.(First delete all attached employee )";
+                    m += "  employee(s) are attached to it. First delete all attached employee(s)";
                     console.log(m);
                     $('#message').html(m);
                     $('#messageModal').modal('show');
@@ -884,7 +959,7 @@ function deleteFromLocation(details) {
 
     let id = details['id'];
     let d = details['name'];
-    $('#alertMessageL').html("Do you ant to delete the Location record:");
+    $('#alertMessageL').html("Do you want to delete the location record:");
     $('#deleteObjectL').html(d);
     $('#alertModalL').modal('show');
 
@@ -906,7 +981,7 @@ function deleteFromLocation(details) {
                     console.log("dependents", response.data);
                     let m = "Cannot delete location !! ";
                     m += response.data;
-                    m += "  departments are attached to it.(First delete all attached departments)";
+                    m += "  department(s) are attached to it.(First delete all attached department(s))";
                     console.log(m);
                     $('#message').html(m);
                     $('#messageModal').modal('show');

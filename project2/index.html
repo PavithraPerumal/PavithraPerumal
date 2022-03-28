@@ -79,10 +79,13 @@
 
               <form class="form-inline">
                <button type="button" class="btn btn-primary" id="filterDeptBtn" role="button" data-bs-toggle="tootip"
-               data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-funnel-fill"></i></button>
-               
-               
-              </form>
+               data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-grid-3x2-gap-fill"></i></button>
+               </form>
+
+               <form class="form-inline">
+                <button type="button" class="btn btn-primary" id="filterLocBtn" role="button" data-bs-toggle="tootip"
+                data-target="#locfilterModal" title="Filter by Location"><i class="bi bi-geo-alt-fill"></i></button>
+                </form>
               <form class="form-inline">
 
                 <div class="input-group">
@@ -468,6 +471,34 @@
         </div>
       </div>
       <!--fitler by dept-->
+      <div class="modal" id="locfilterModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Filter Location</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="needs-validation" id="locFilterForm">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                  <label for="filterLoc">Location</label>
+                  <select id="filterLoc" class="form-select" required>
+                  </select>
+                </div>  
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
       <div class="modal" id="deptfilterModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -488,13 +519,14 @@
 
               </form>
             </div>
-            <!-- <div class="modal-footer">
-              <button type="button" id="saveEmpInsert"class="btn btn-primary">Save changes</button>
-              
-            </div> -->
           </div>
         </div>
       </div>
+      
+
+      <!--loc filter-->
+      
+
     </section>
   </main>
   <script src="./assets/dist/js/jquery-3.6.0.min.js"></script>
