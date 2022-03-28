@@ -586,17 +586,25 @@ $("#deptInsertForm").submit(function(event) {
 })
 ////searching personnel
 
-$('#nameToSearch').bind("keypress change", function () {
+$('#nameToSearch').on("keyup", function (event) {
     // let search = "Sales";//document.getElementById('nameToSearch');
     // search="%"+search+"%";
+   
+    let dfilter=$('#filterDept').val();
+    let lfilter=$('#filterLoc').val();
+    console.log("filters ",dfilter,lfilter);
     document.getElementById('employeeTable').length = 0;
     let s = $(this).val();
+    if(s!==null){
+
     let search = s.toUpperCase();
     $.ajax({
         url: './assets/dist/php/searchAll.php',
         type: 'POST',
         data: {
             search: search,
+            dfilter: dfilter,
+            lfilter: lfilter
         },
         success: (response) => {
             console.log("seacrch names result", response.data);
@@ -616,14 +624,19 @@ $('#nameToSearch').bind("keypress change", function () {
             console.log(textStatus);
         }
     });
-
+}
+else{
+    generateEmpTable();
+}
 })
 //////searching dept
-$('#deptToSearch').bind('keypress change', function () {
+$('#deptToSearch').on('keyup', function () {
     let s = $(this).val();
     let filt=$('#filterDept').val();
     console.log("dept filter",filt);
     let search = s.toUpperCase();
+    if(search!==null){
+    
     $.ajax({
         url: './assets/dist/php/searchDept.php',
         type: 'POST',
@@ -648,7 +661,11 @@ $('#deptToSearch').bind('keypress change', function () {
             console.log(textStatus);
         }
     });
-
+    
+}
+else{
+    generateDeptTable();
+}
 })
 
 

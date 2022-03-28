@@ -1,15 +1,15 @@
 <?php
-
-	// connection details for MySQL database
-
-	$cd_host ="localhost";// "127.0.0.1";
-	// $cd_port = 3306;
-	// $cd_socket = "";
-
-	// database name, username and password
-
+// connection details for MySQL database
+// database name, username and password 
+//////for localhost////////
+	$cd_host ="localhost";
 	$cd_dbname = "companydirectory";
-	$cd_user = "root";//"companydirectory";
-	$cd_password = "";//"companydirectory";
+	$cd_user = "root";
+	$cd_password = "";
+	/////for web//////////
+	// $cd_host ="db5007030009.hosting-data.io";
+	// $cd_dbname = "dbs5803597";
+	// $cd_user = "dbu1056304";
+	// $cd_password = "comPanyPortalEmployee44$55";
 
 ?>

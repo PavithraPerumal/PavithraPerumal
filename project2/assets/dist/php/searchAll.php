@@ -34,13 +34,28 @@
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
+	$dfilter=$_REQUEST['dfilter'];
+	$lfilter=$_REQUEST['lfilter'];
+	if($dfilter==null && $lfilter==null){
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
+		$p=$_REQUEST['search'];
+		$param = "%".$p."%";
+		$query->bind_param("sss", $param ,$param,$param);
+	}
+	else if( $lfilter==null){
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id= ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ) ORDER BY p.lastName, p.firstName, d.name, l.name');
+		$p=$_REQUEST['search'];
+		$param = "%".$p."%";
+		$query->bind_param("isss",$dfilter, $param ,$param,$param);
+	}
+	else if ($dfilter==null){
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE l.id= ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ) ORDER BY p.lastName, p.firstName, d.name, l.name');
+		$p=$_REQUEST['search'];
+		$param = "%".$p."%";
+		$query->bind_param("isss",$lfilter, $param ,$param,$param);
+	}
 
-	$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
-	
 
-	$p=$_REQUEST['search'];
-	$param = "%".$p."%";
-	$query->bind_param("sss", $param ,$param,$param);
 
 	$query->execute();
 	
