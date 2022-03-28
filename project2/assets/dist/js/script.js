@@ -476,9 +476,13 @@ $("#locInsertForm").submit(function(event) {
             name: locToInsert,
         },
         success: (response) => {
-            if (response.status.name == "ok") {
-
+            if (response.data == 0) {
+               
                 generateLocTable();
+            }
+            else{
+                $('#message').html("Location already exists! ");
+                $('#messageModal').modal('show');
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -524,10 +528,14 @@ $("#empInsertForm").submit(function(event) {
                 departmentID: departmentID,
             },
             success: (response) => {
-                if (response.status.name == 'ok') {
+                if (response.data == 0) {
                    
                     generateEmpTable();
                    
+                }
+                else{
+                    $('#message').html("cannot insert, email id exisits !");
+                    $('#messageModal').modal('show');
                 }
     
             },
@@ -548,13 +556,8 @@ $("#deptInsertForm").submit(function(event) {
 
     event.preventDefault();
     $('#deptInsertModal').modal('hide');
-   
     let name = $('#deptName').val();
-
-
     let locID = $('#inputLocation').val();
-
-
     console.log("to insert department name, locid: ", name, locID);
 
     $.ajax({
@@ -566,9 +569,13 @@ $("#deptInsertForm").submit(function(event) {
 
         },
         success: (response) => {
-            if (response.status.name == 'ok') {
+            if (response.data == 0) {
                
                 generateDeptTable();
+            }
+            else{
+                $('#message').html("Department already exists! ");
+                    $('#messageModal').modal('show');
             }
 
         },
