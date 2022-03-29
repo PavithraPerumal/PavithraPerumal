@@ -164,11 +164,11 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputFN">FirstName</label>
-                    <input type="text" class="form-control" id="inputFN" placeholder="FirstName"  pattern="[a-zA-Z]{1,20}"title="letters only(max 20)" required>
+                    <input type="text" class="form-control" id="inputFN" placeholder="FirstName"  pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" required>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputLN">LastName</label>
-                    <input type="text" class="form-control" id="inputLN" placeholder="LastName" pattern="[a-zA-Z]{1,20}" title="letters only(max 20)"required>
+                    <input type="text" class="form-control" id="inputLN" placeholder="LastName" pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}" title="letters/diacritics (max 20)"required>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -258,7 +258,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="locName">Name</label>
-                    <input type="text" class="form-control" id="locName" placeholder="Name" required>
+                    <input type="text" class="form-control" id="locName" placeholder="Name" pattern="[a-z]{1-20}" title="letters only(max 20)"required>
                   </div>
 
                 </div>
@@ -285,17 +285,17 @@
               </button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="empUpdateForm">
+              <div class="needs-validation" id="empUpdateForm">
                 <div class="form-group row">
                   <label for="updateFN" class="col-sm-2 col-form-label formlabelBold">First Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="updateFN" >
+                    <input type="text" class="form-control" id="updateFN" pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" >
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="updateLN" class="col-sm-2 col-form-label formlabelBold">Last Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="updateLN" >
+                    <input type="text" class="form-control" id="updateLN" pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -313,7 +313,7 @@
 
                 <button type="submit" class="btn btn-primary" id="empUpdateYes" >Save</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </form>
+              </div><!--form-->
             </div>
            
           </div>
@@ -330,7 +330,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="depUpdateForm">
+              <div class="needs-validation" id="depUpdateForm">
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="updatedeptname">Name</label>
@@ -349,7 +349,7 @@
 
                 <button type="submit" class="btn btn-primary" id="updateYes" >Update</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </form>
+              </div>
             </div>
 
           </div>
@@ -366,7 +366,7 @@
               </span>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="depUpdateForm">
+              <div class="needs-validation" id="depUpdateForm">
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="updatelocname">Name</label>
@@ -380,7 +380,7 @@
                 <button type="submit" class="btn btn-primary" id="updateLocYes" data-bs-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-              </form>
+              </div>
             </div>
             <!-- <div class="modal-footer">
               <button type="button" id="saveEmpInsert"class="btn btn-primary">Save changes</button>

@@ -695,7 +695,7 @@ function updatePersonnel(details) {
     $('#updateEmail').val(email);
     
     document.getElementById('updateDept').options.length = 0;
-    
+ 
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
@@ -727,12 +727,18 @@ function updatePersonnel(details) {
 
     $('#empUpdateYes').on('click', function () {
 
-
+        $('#empUpdateModal').modal('hide');
         let deptid = document.getElementById('updateDept').value;
         fname = $('#updateFN').val();
         lname = $('#updateLN').val();//document.getElementById('inputLN');
         email = $('#updateEmail').val();//document.getElementById('inputEmail');
         console.log("updating emp", fname, lname, email,id, deptid);
+        if(fname=="" ||lname=="" ||email=="" ||deptid==""){
+            $('#message').html("Cannot update to null values");
+            $('#messageModal').modal('show');
+           
+        }
+        else{
         $.ajax({
             url: './assets/dist/php/updatePersonnel.php',
             type: 'POST',
@@ -762,6 +768,7 @@ function updatePersonnel(details) {
                 console.log(textStatus);
             }
         });
+    }
     });//onclickend
 
 }
@@ -805,11 +812,17 @@ function updateDepartment(details) {
     //get new values fro update modal and send to php for query on click of updateyes
 
     $('#updateYes').on("click", function () {
-
+        $('#deptUpdateModal').modal('hide');
         let name = $('#updatedeptname').val();
         let locationID = document.getElementById('updateNewLocation').value;
        
         console.log("updating ", name, locationID, id);
+        if(name=="" ||locationID==null){
+            $('#message').html("Cannot update to null values");
+            $('#messageModal').modal('show');
+           
+        }
+        else{
         $.ajax({
             url: './assets/dist/php/updateDepartment.php',
             type: 'POST',
@@ -821,7 +834,7 @@ function updateDepartment(details) {
             success: (response) => {
                 console.log("seacrch names result", response.data);
                 if (response.status.name == "ok") {
-                    $('#message').html("Updated location successfully");
+                    $('#message').html("Updated department successfully");
                     $('#messageModal').modal('show');
                     generateDeptTable();
                 }
@@ -836,7 +849,7 @@ function updateDepartment(details) {
                 console.log(textStatus);
             }
         });
-
+    }
     });
 
 
@@ -857,10 +870,17 @@ function updateLocation(details) {
     //get new values fro update modal and send to php for query on click of updateyes
 
     $('#updateLocYes').on("click", function () {
-
+        $('#locupdateModal').modal('hide');
         let name = $('#updatelocname').val();
 
         console.log("updating ", name, id);
+        if(name==""){
+            $('#message').html("Cannot update to null values");
+            $('#messageModal').modal('show');
+            
+          
+        }
+        else{
         $.ajax({
             url: './assets/dist/php/updateLocation.php',
             type: 'POST',
@@ -886,6 +906,7 @@ function updateLocation(details) {
                 console.log(textStatus);
             }
         });
+    }
 
     });
 
