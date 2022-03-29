@@ -12,39 +12,27 @@ function onEdit(details, type) {
     console.log("Edit of type", details, type);
     if (type == "emp") {
         updatePersonnel(details);
-        //  alert("its an employee");
     }
-
-
     else if (type == "dept") {
         updateDepartment(details);
-        // alert("its a departmment");
     }
     else if (type == "loc") {
         updateLocation(details);
-
-        //  alert("its location");
     }
-
 }
-
 
 
 function onDelete(details, type) {
     console.log("Delete", details);
     if (type == "emp") {
         deleteFromPersonnel(details);
-
     }
     else if (type == "dept") {
         deleteFromDepartment(details);
-
     }
     else if (type == "loc") {
         deleteFromLocation(details);
-
     }
-
 }
 
 
@@ -65,7 +53,6 @@ function generateRows(tableDetails, requiredTableColumns = null, type) {
         requiredTableColumns.forEach(Column => {
             tableTDs += `<td>${tableDetail[Column]}</td>`
         });
-        // const customTdElement =
         const editButton = createButton("Edit", onEditClick);
         const deleteButton = createButton("Delete", onDeleteClick);
         let customTDElement = document.createElement("td");
@@ -110,10 +97,10 @@ function generateTable(tableDetails, requiredTableColumns = null, type) {
     }
 }
 
-$('#saveEmpInsert').on('click', function (e) {
-    //     // do something...
-    alert("insert clicked");
-})
+// $('#saveEmpfInsert').on('click', function (e) {
+//     //     // do something...
+//     alert("insert clicked");
+// })
 
 
 /////////////////////////////////////
@@ -127,12 +114,13 @@ $(document).ready(function () {
             });
         }
     });
-
+    //generate tables for all 3 tabs
     generateEmpTable();
     generateDeptTable();
     generateLocTable();
   
 });
+//refresh the tab on click of refresh button
 $('#refreshE').on('click',function(){
     $('#employeeTable').empty();
     $('#departmentTable').empty();
@@ -152,11 +140,9 @@ $('#refreshD').on('click',function(){
     generateLocTable();
 })
 
-
+//generate employee table
 function generateEmpTable() {
     const type = "emp";
-    console.log("generating emp table....", type);
-
     $.ajax({
         url: './assets/dist/php/getAll.php',
         type: 'POST',
@@ -172,7 +158,6 @@ function generateEmpTable() {
             $('#employeeTable').append(tableBody);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            //console.log("id sent",id);
             console.log("failed");
             console.log(errorThrown);
             console.log(jqXHR.responseText);
@@ -182,7 +167,7 @@ function generateEmpTable() {
     });
 
 }
-
+//generate department table data
 function generateDeptTable() {
     const type = "dept";
     console.log("generating dept table....");
@@ -211,7 +196,7 @@ function generateDeptTable() {
     });
 }
 
-
+//generate location table
 function generateLocTable() {
     const type = "loc";
     console.log("generating location table....");
@@ -244,12 +229,10 @@ function generateLocTable() {
 $('#filterDeptBtn').on('click',function(){
     document.getElementById('filterDept').options.length = 0;
    
-    //document.getElementById('inputLocation').options.length=0;
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("filter alldept", response.data.dept);
             let departments = response.data.dept;
             let optiondv = `<option value="-1">---Select Department---</option>`;
             departments.forEach(d => {
@@ -273,7 +256,7 @@ $('#filterDeptBtn').on('click',function(){
 
 $('#filterDept').on('change',function(){
     document.getElementById('employeeTable').length = 0;
-    let deptID = $('#filterDept').val();// $(this).val();
+    let deptID = $('#filterDept').val();
     let searchStr=$('#nameToSearch').val();
     searchStr=searchStr.toUpperCase();
     console.log("search name",searchStr);
@@ -309,10 +292,10 @@ $('#filterDept').on('change',function(){
         }
     });
     
-})//filterdept
+})//end filterdept
 
 
-///filter by location
+///filter employee by location
 
 
 $('#filterLocBtn').on('click',function(){
@@ -321,9 +304,8 @@ $('#filterLocBtn').on('click',function(){
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("filter all location", response.data.loc);
             let locations = response.data.loc;
-            let optionlv = `<option value="">---Select Location---</option>`;
+            let optionlv = `<option value="-1">---Select Location---</option>`;
             locations.forEach(l => {
                 console.log(l.name);
                 optionlv += `<option value=${l.id}>${l.name}</option>`;
@@ -342,12 +324,11 @@ $('#filterLocBtn').on('click',function(){
         }
     });
     $('#locfilterModal').modal('show');
-    console.log("modal shown");
 })
 
 $('#filterLoc').on('change',function(){
     document.getElementById('employeeTable').length = 0;
-    let locID = $('#filterLoc').val();// $(this).val();
+    let locID = $('#filterLoc').val();
     let searchStr=$('#nameToSearch').val();
     searchStr=searchStr.toUpperCase();
     console.log("search name",searchStr);
@@ -383,9 +364,9 @@ $('#filterLoc').on('change',function(){
         }
     });
     
-})//filter location
-///////////////Employee////////////////
+})//end filter location
 
+///////////////Insert////////////////
 ////////populatedept select drop down
 $('#empInsertBtn').on('click', function () {
 
@@ -394,11 +375,9 @@ $('#empInsertBtn').on('click', function () {
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("alldept", response.data.dept);
             let departments = response.data.dept;
             let optiondv = `<option value="">---Select Department---</option>`;
             departments.forEach(d => {
-                console.log(d.department);
                 optiondv += `<option value=${d.id}>${d.Department}</option>`;
             });
 
@@ -417,22 +396,16 @@ $('#empInsertBtn').on('click', function () {
     $('#empInsertModal').modal('show');
 })
    
-
+///department insert
 $('#deptInsertBtn').on('click', function () {
-
-    
-
     document.getElementById('inputLocation').options.length = 0;
-
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("all locations", response.data.loc);
             let locations = response.data.loc;
             let optionlv = `<option value="">---Select Location---</option>`;
             locations.forEach(l => {
-                console.log(l.name);
                 optionlv += `<option value=${l.id}>${l.name}</option>`;
             });
 
@@ -455,8 +428,6 @@ $('#deptInsertBtn').on('click', function () {
 $('#locInsertBtn').on('click', function () {
     $('#locInsertModal').modal('show');
 });
-
-
 
 /////insert location to db
 
@@ -505,14 +476,12 @@ $("#empInsertForm").submit(function(event) {
     event.preventDefault();
 
     $('#empInsertModal').modal('hide');
-   
-
         console.log($('#inputFN').val());
         console.log($('#inputLN').val());
         console.log($('#inputEmail').val());
         let fname = $('#inputFN').val();
-        let lname = $('#inputLN').val();//document.getElementById('inputLN');
-        let email = $('#inputEmail').val();//document.getElementById('inputEmail');
+        let lname = $('#inputLN').val();
+        let email = $('#inputEmail').val();
         let departmentID = $('#inputDept').val();
     
         
@@ -558,8 +527,6 @@ $("#deptInsertForm").submit(function(event) {
     $('#deptInsertModal').modal('hide');
     let name = $('#deptName').val();
     let locID = $('#inputLocation').val();
-    console.log("to insert department name, locid: ", name, locID);
-
     $.ajax({
         url: './assets/dist/php/insertDepartment.php',
         type: 'POST',
@@ -570,7 +537,6 @@ $("#deptInsertForm").submit(function(event) {
         },
         success: (response) => {
             if (response.data == 0) {
-               
                 generateDeptTable();
             }
             else{
@@ -591,12 +557,11 @@ $("#deptInsertForm").submit(function(event) {
     document.getElementById("deptInsertForm").reset();
 
 })
-////searching personnel
 
+//////////searching ///////////
+//personnel search
 $('#nameToSearch').on("keyup", function (event) {
-    // let search = "Sales";//document.getElementById('nameToSearch');
-    // search="%"+search+"%";
-   
+    
     let dfilter=$('#filterDept').val();
     let lfilter=$('#filterLoc').val();
     console.log("filters ",dfilter,lfilter);
@@ -614,7 +579,6 @@ $('#nameToSearch').on("keyup", function (event) {
             lfilter: lfilter
         },
         success: (response) => {
-            console.log("seacrch names result", response.data);
             let tableDetails = response.data;
             const {
                 tableHeaders,
@@ -636,11 +600,11 @@ else{
     generateEmpTable();
 }
 })
+
 //////searching dept
 $('#deptToSearch').on('keyup', function () {
     let s = $(this).val();
     let filt=$('#filterDept').val();
-    console.log("dept filter",filt);
     let search = s.toUpperCase();
     if(search!==null){
     
@@ -651,7 +615,6 @@ $('#deptToSearch').on('keyup', function () {
             search: search
         },
         success: (response) => {
-            console.log("seacrch dept result", response.data);
             let tableDetails = response.data;
             const {
                 tableHeaders,
@@ -675,21 +638,14 @@ else{
 }
 })
 
-
-
-
-
+//////////updating////////////
 //////updating personnel names,email
-
 function updatePersonnel(details) {
-
-
     let id = details['id'];
     let fname = details['firstName'];
-    let lname = details['lastName'];//document.getElementById('inputLN');
-    let email = details['email'];//document.getElementById('inputEmail');
+    let lname = details['lastName'];
+    let email = details['email'];
     let department = details['dID'];
-    console.log("update emp for ", fname, lname, department);
     $('#updateFN').val(fname);
     $('#updateLN').val(lname);
     $('#updateEmail').val(email);
@@ -700,11 +656,9 @@ function updatePersonnel(details) {
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("alldept", response.data.dept);
             let departments = response.data.dept;
-            let optiondv = `<option value="">...Select..</option>`;
+            let optiondv = `<option value="-1">...Select..</option>`;
             departments.forEach(d => {
-                console.log(d.department);
                 optiondv += `<option value=${d.id}>${d.Department}</option>`;
             });
 
@@ -720,8 +674,6 @@ function updatePersonnel(details) {
             console.log(textStatus);
         }
     });
-
-    /// 
     $('#empUpdateModal').modal('show');
 
 
@@ -730,9 +682,8 @@ function updatePersonnel(details) {
         $('#empUpdateModal').modal('hide');
         let deptid = document.getElementById('updateDept').value;
         fname = $('#updateFN').val();
-        lname = $('#updateLN').val();//document.getElementById('inputLN');
-        email = $('#updateEmail').val();//document.getElementById('inputEmail');
-        console.log("updating emp", fname, lname, email,id, deptid);
+        lname = $('#updateLN').val();
+        email = $('#updateEmail').val();
         if(fname=="" ||lname=="" ||email=="" ||deptid==""){
             $('#message').html("Cannot update to null values");
             $('#messageModal').modal('show');
@@ -750,7 +701,6 @@ function updatePersonnel(details) {
                 departmentID: deptid
             },
             success: (response) => {
-                //console.log("seacrch names result",response.data);
                 if (response.status.name == "ok") {
                     $('#message').html("Updated record successfully");
                     $('#messageModal').modal('show');
@@ -787,7 +737,6 @@ function updateDepartment(details) {
         url: './assets/dist/php/getAllDepartments.php',
         type: 'POST',
         success: (response) => {
-            console.log("alldept", response.data.loc);
             let locations = response.data.loc;
             let optionlv = `<option value="">---Select Location---</option>`;
             locations.forEach(l => {
@@ -809,14 +758,13 @@ function updateDepartment(details) {
     });
     /////
     $('#deptUpdateModal').modal('show');
-    //get new values fro update modal and send to php for query on click of updateyes
+    //get new values from update modal and send to php for query on click of #updateyes
 
     $('#updateYes').on("click", function () {
         $('#deptUpdateModal').modal('hide');
         let name = $('#updatedeptname').val();
         let locationID = document.getElementById('updateNewLocation').value;
        
-        console.log("updating ", name, locationID, id);
         if(name=="" ||locationID==null){
             $('#message').html("Cannot update to null values");
             $('#messageModal').modal('show');
@@ -832,7 +780,6 @@ function updateDepartment(details) {
                 locationID: locationID
             },
             success: (response) => {
-                console.log("seacrch names result", response.data);
                 if (response.status.name == "ok") {
                     $('#message').html("Updated department successfully");
                     $('#messageModal').modal('show');
@@ -862,10 +809,6 @@ function updateLocation(details) {
 
     $('#updatelocname').val(locationName);
 
-    /////
-
-
-    /////
     $('#locupdateModal').modal('show');
     //get new values fro update modal and send to php for query on click of updateyes
 
@@ -914,9 +857,7 @@ function updateLocation(details) {
 }
 ///loc update end
 
-
-
-
+/////////delete/////////////////
 function deleteFromPersonnel(details) {
     let id = details['id'];
     let n = null;
@@ -929,7 +870,6 @@ function deleteFromPersonnel(details) {
     $('#alertModalE').modal('show');
 
     $('#empdeleteYes').on('click', function () {
-        //alert("delete"+details['firstname']+details['LastName']);
         $.ajax({
             url: './assets/dist/php/deletePersonnelByID.php',
             type: 'POST',
@@ -937,11 +877,7 @@ function deleteFromPersonnel(details) {
                 id: id
             },
             success: (response) => {
-
-
                 generateEmpTable();
-
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("id sent", id);
@@ -953,9 +889,8 @@ function deleteFromPersonnel(details) {
         });
     });
 }
-
+///delete department
 function deleteFromDepartment(details) {
-
     let id = details['id'];
     let d = details['Department'];
     $('#alertMessageD').html("Do you want to delete the Department record of");
@@ -977,31 +912,25 @@ function deleteFromDepartment(details) {
                     generateDeptTable();
                 }
                 else {
-                    console.log("dependents", response.data);
                     let m = "Cannot delete department, ";
                     m += response.data;
                     m += "  employee(s) are attached to it. First delete all attached employee(s)";
                     console.log(m);
                     $('#message').html(m);
                     $('#messageModal').modal('show');
-
                 }
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
                 console.log(errorThrown);
                 console.log(jqXHR.responseText);
                 console.log(textStatus);
             }
         });
-
     });
 }
 
+////delete from location
 function deleteFromLocation(details) {
-
-
     let id = details['id'];
     let d = details['name'];
     $('#alertMessageL').html("Do you want to delete the location record:");
@@ -1031,10 +960,8 @@ function deleteFromLocation(details) {
                     $('#message').html(m);
                     $('#messageModal').modal('show');
                 }
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
                 console.log("failed");
                 console.log(errorThrown);
                 console.log(jqXHR.responseText);
@@ -1042,14 +969,4 @@ function deleteFromLocation(details) {
             }
         });
     });
-
 }
-
-//     const tableDetails = [{ name: "testName1", email: "testEmail", dob: "mockDoB", id: "1" }, { name: "testName1", email: "testEmail", dob: "mockDoB", id: "2" }, { name: "testName1", email: "testEmail", dob: "mockDoB", id: "3" }];
-//     const {
-//         tableHeaders,
-//         tableBody
-//     } = generateRows(tableDetails, ['name', 'email', 'dob', 'custom']);
-//     $('#employeeTable').append(tableHeaders);
-//     $('#employeeTable').append(tableBody);
-// });
