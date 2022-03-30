@@ -893,80 +893,160 @@ function deleteFromPersonnel(details) {
 function deleteFromDepartment(details) {
     let id = details['id'];
     let d = details['Department'];
-    $('#alertMessageD').html("Do you want to delete the Department record of");
-    $('#deleteObjectD').html(d);
-    $('#alertModalD').modal('show');
+    
+    $.ajax({
+        url: './assets/dist/php/deleteDepartmentDependencyCheck.php',
+        type: 'POST',
+        data: {
+            id: id
+        },
+        success: (response) => {
 
-    $('#deptdeleteYes').on('click', function () {
-        $.ajax({
-            url: './assets/dist/php/deleteDepartmentByID.php',
-            type: 'POST',
-            data: {
-                id: id
-            },
-            success: (response) => {
-
-                if (response.data == -1) {
-                    $('#message').html("Department deleted Successfully");
-                    $('#messageModal').modal('show');
-                    generateDeptTable();
-                }
-                else {
-                    let m = "Cannot delete department, ";
-                    m += response.data;
-                    m += "  employee(s) are attached to it. First delete all attached employee(s)";
-                    console.log(m);
-                    $('#message').html(m);
-                    $('#messageModal').modal('show');
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                console.log(jqXHR.responseText);
-                console.log(textStatus);
+            if (response.data == 0) {
+               $('#alertMessageD').html("Do you want to delete the Department record of");
+               $('#deleteObjectD').html(d);
+               $('#alertModalD').modal('show');
+               $('#deptdeleteYes').on('click', function () {
+                    $.ajax({
+                        url: './assets/dist/php/deleteDepartmentByID.php',
+                        type: 'POST',
+                        data: {
+                        id: id
+                        },
+                        success: (response) => {
+        
+                            if (response.data == -1) {
+                                $('#message').html("Department deleted Successfully");
+                                $('#messageModal').modal('show');
+                                generateDeptTable();
+                            }
+                        
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            console.log(jqXHR.responseText);
+                            console.log(textStatus);
+                        }
+                    });
+              });
             }
-        });
+        
+            else {
+                let m = "Cannot delete department, ";
+                m += response.data;
+                m += "  employee(s) are attached to it. First delete all attached employee(s)";
+                console.log(m);
+                $('#message').html(m);
+                $('#messageModal').modal('show');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            console.log(jqXHR.responseText);
+            console.log(textStatus);
+        }
     });
+    
 }
 
 ////delete from location
+///deleteLocationDependencyCheck.php
+
+// function deleteFromLocation(details) {
+//     let id = details['id'];
+//     let d = details['name'];
+//     $('#alertMessageL').html("Do you want to delete the location record:");
+//     $('#deleteObjectL').html(d);
+//     $('#alertModalL').modal('show');
+
+//     $('#locdeleteYes').on('click', function () {
+//         $.ajax({
+//             url: './assets/dist/php/deleteLocationByID.php',
+//             type: 'POST',
+//             data: {
+//                 id: id
+//             },
+//             success: (response) => {
+
+//                 if (response.data == -1) {
+//                     $('#message').html("Location deleted");
+//                     $('#messageModal').modal('show');
+//                     generateLocTable();
+//                 }
+//                 else {
+//                     console.log("dependents", response.data);
+//                     let m = "Cannot delete location !! ";
+//                     m += response.data;
+//                     m += "  department(s) are attached to it.(First delete all attached department(s))";
+//                     console.log(m);
+//                     $('#message').html(m);
+//                     $('#messageModal').modal('show');
+//                 }
+//             },
+//             error: function (jqXHR, textStatus, errorThrown) {
+//                 console.log("failed");
+//                 console.log(errorThrown);
+//                 console.log(jqXHR.responseText);
+//                 console.log(textStatus);
+//             }
+//         });
+//     });
+// }
 function deleteFromLocation(details) {
     let id = details['id'];
     let d = details['name'];
-    $('#alertMessageL').html("Do you want to delete the location record:");
-    $('#deleteObjectL').html(d);
-    $('#alertModalL').modal('show');
+    
+    $.ajax({
+        url: './assets/dist/php/deleteLocationDependencyCheck.php',
+        type: 'POST',
+        data: {
+            id: id
+        },
+        success: (response) => {
 
-    $('#locdeleteYes').on('click', function () {
-        $.ajax({
-            url: './assets/dist/php/deleteLocationByID.php',
-            type: 'POST',
-            data: {
-                id: id
-            },
-            success: (response) => {
-
-                if (response.data == -1) {
-                    $('#message').html("Location deleted");
-                    $('#messageModal').modal('show');
-                    generateLocTable();
-                }
-                else {
-                    console.log("dependents", response.data);
-                    let m = "Cannot delete location !! ";
-                    m += response.data;
-                    m += "  department(s) are attached to it.(First delete all attached department(s))";
-                    console.log(m);
-                    $('#message').html(m);
-                    $('#messageModal').modal('show');
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("failed");
-                console.log(errorThrown);
-                console.log(jqXHR.responseText);
-                console.log(textStatus);
+            if (response.data == 0) {
+               $('#alertMessageL').html("Do you want to delete the Location record of");
+               $('#deleteObjectL').html(d);
+               $('#alertModalL').modal('show');
+               $('#locdeleteYes').on('click', function () {
+                    $.ajax({
+                        url: './assets/dist/php/deleteLocationByID.php',
+                        type: 'POST',
+                        data: {
+                        id: id
+                        },
+                        success: (response) => {
+        
+                            if (response.data == -1) {
+                                $('#message').html("Location deleted Successfully");
+                                $('#messageModal').modal('show');
+                                generateLocTable();
+                            }
+                        
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            console.log(jqXHR.responseText);
+                            console.log(textStatus);
+                        }
+                    });
+              });
             }
-        });
+        
+            else {
+                let m = "Cannot delete Location, ";
+                m += response.data;
+                m += "  location(s) are attached to it. First delete all attached department(s)";
+                console.log(m);
+                $('#message').html(m);
+                $('#messageModal').modal('show');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            console.log(jqXHR.responseText);
+            console.log(textStatus);
+        }
     });
+    
 }

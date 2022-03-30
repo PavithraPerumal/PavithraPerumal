@@ -38,57 +38,67 @@
 
 	//$query = $conn->prepare('DELETE FROM department WHERE id = ?');
 	//$query = $conn->prepare('DELETE FROM location WHERE id= ? AND id NOT IN (SELECT DISTINCT(locationID) FROM department'));
-	$query1=$conn->prepare('SELECT COUNT(*) DEPENDENCY_COUNT FROM personnel WHERE departmentID = ?');
-	$query1->bind_param("i", $_REQUEST['id']);
-	$query1->execute();
+	// $query1=$conn->prepare('SELECT COUNT(*) DEPENDENCY_COUNT FROM personnel WHERE departmentID = ?');
+	// $query1->bind_param("i", $_REQUEST['id']);
+	// $query1->execute();
 	
 
-	if (false === $query1) {
+	// if (false === $query1) {
 
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
+	// 	$output['status']['code'] = "400";
+	// 	$output['status']['name'] = "executed";
+	// 	$output['status']['description'] = "query failed";	
+	// 	$output['data'] = [];
 
-		mysqli_close($conn);
+	// 	mysqli_close($conn);
 
-		echo json_encode($output); 
+	// 	echo json_encode($output); 
 
-		exit;
-
-	}
-	$result1 = $query1->get_result();
-	$row1 = mysqli_fetch_assoc($result1);
-	// $data1 = [];
-	// while ($row = mysqli_fetch_assoc($result1)) {
-
-	// 	array_push($data, $row);
+	// 	exit;
 
 	// }
+	// $result1 = $query1->get_result();
+	// $row1 = mysqli_fetch_assoc($result1);
+	// // $data1 = [];
+	// // while ($row = mysqli_fetch_assoc($result1)) {
+
+	// // 	array_push($data, $row);
+
+	// // }
 	
 
 
-	if ($row1['DEPENDENCY_COUNT']>0)
-	{
-		//print_r($row1['DEPENDENCY_COUNT']);
-		$output['status']['code'] = "200";
-		$output['status']['name'] = "ok";
-		$output['status']['description'] = "success";
-		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-		$output['data'] = $row1['DEPENDENCY_COUNT'];
-		mysqli_close($conn);
+	// if ($row1['DEPENDENCY_COUNT']>0)
+	// {
+	// 	//print_r($row1['DEPENDENCY_COUNT']);
+	// 	$output['status']['code'] = "200";
+	// 	$output['status']['name'] = "ok";
+	// 	$output['status']['description'] = "success";
+	// 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+	// 	$output['data'] = $row1['DEPENDENCY_COUNT'];
+	// 	mysqli_close($conn);
 
-		echo json_encode($output); 
+	// 	echo json_encode($output); 
 		
-	}
+	// }
 
-	else{
+	// else{
 	$query2=$conn->prepare('DELETE FROM department WHERE id = ?');
 	$query2->bind_param("i", $_REQUEST['id']);
 	$query2->execute();
 	$result2 = $query2->get_result();
 	//$row2 = mysqli_fetch_assoc($result2);
-	print_r($result2);
+	//print_r($result2);
+	if (false === $query2) {
+
+		$output['status']['code'] = "400";
+	 	$output['status']['name'] = "executed";
+	 	$output['status']['description'] = "query failed";	
+	 	$output['data'] = [];
+	 	mysqli_close($conn);
+	 	echo json_encode($output); 
+	 	exit;
+	 }
 
 
 	$output['status']['code'] = "200";
@@ -100,6 +110,6 @@
 	mysqli_close($conn);
 
 	echo json_encode($output); 
-	}
+	
 
 ?>

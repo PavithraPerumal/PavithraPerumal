@@ -36,26 +36,38 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	//$query = $conn->prepare('DELETE FROM department WHERE id = ?');
-	//$query = $conn->prepare('DELETE FROM location WHERE id= ? AND id NOT IN (SELECT DISTINCT(locationID) FROM department'));
+	$query1=$conn->prepare('SELECT COUNT(id) DEPENDENCY_COUNT FROM personnel WHERE departmentID = ?');
+	$query1->bind_param("i", $_REQUEST['id']);
+	$query1->execute();
 	
-	$query2=$conn->prepare('DELETE FROM location WHERE id = ?');
-	$query2->bind_param("i", $_REQUEST['id']);
-	$query2->execute();
-	$result2 = $query2->get_result();
-	
-	print_r($result2);
 
+	if (false === $query1) {
 
-	$output['status']['code'] = "200";
-	$output['status']['name'] = "ok";
-	$output['status']['description'] = "success";
-	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = -1;
-	
-	mysqli_close($conn);
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "query failed";	
+		$output['data'] = [];
 
-	echo json_encode($output); 
+		mysqli_close($conn);
+
+		echo json_encode($output); 
+
+		exit;
+
 	}
+	$result1 = $query1->get_result();
+	$row1 = mysqli_fetch_assoc($result1);
+	
+		$output['status']['code'] = "200";
+		$output['status']['name'] = "ok";
+		$output['status']['description'] = "success";
+		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+		$output['data'] = $row1['DEPENDENCY_COUNT'];
+		mysqli_close($conn);
 
+		echo json_encode($output); 
+		
+	
+
+	
 ?>
