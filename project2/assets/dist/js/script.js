@@ -604,7 +604,7 @@ else{
 //////searching dept
 $('#deptToSearch').on('keyup', function () {
     let s = $(this).val();
-    let filt=$('#filterDept').val();
+   // let filt=$('#filterDept').val();
     let search = s.toUpperCase();
     if(search!==null){
     
