@@ -1,4 +1,3 @@
-
 // Table Header Creation
 const generateHeader = (requiredTableColumns) => {
     let tableHeadersRows = "";
@@ -68,7 +67,7 @@ function generateRows(tableDetails, requiredTableColumns = null, type) {
 //Button Creation
 function createButton(name, onClickTriggerMethod) {
     const button = document.createElement("button");
-    button.setAttribute("class", "btn-sm btn-default m-1 glyphicon glyphicon-pencil");
+    button.setAttribute("class", "btn btn-sm btn-primary m-1 glyphicon glyphicon-pencil");
     if (name === "Edit") {
         button.innerHTML = `<i class="bi bi-pencil"></i>`;
     }
@@ -96,12 +95,6 @@ function generateTable(tableDetails, requiredTableColumns = null, type) {
         tableBody,
     }
 }
-
-// $('#saveEmpfInsert').on('click', function (e) {
-//     //     // do something...
-//     alert("insert clicked");
-// })
-
 
 /////////////////////////////////////
 $(document).ready(function () {
@@ -234,7 +227,7 @@ $('#filterDeptBtn').on('click',function(){
         type: 'POST',
         success: (response) => {
             let departments = response.data.dept;
-            let optiondv = `<option value="-1">---Select Department---</option>`;
+            let optiondv = `<option value="-1">---All Departments---</option>`;
             departments.forEach(d => {
                 console.log(d.department);
                 optiondv += `<option value=${d.id}>${d.Department}</option>`;
@@ -257,10 +250,16 @@ $('#filterDeptBtn').on('click',function(){
 $('#filterDept').on('change',function(){
     document.getElementById('employeeTable').length = 0;
     let deptID = $('#filterDept').val();
+    let locID = $('#filterLoc').val();
     let searchStr=$('#nameToSearch').val();
     searchStr=searchStr.toUpperCase();
     console.log("search name",searchStr);
-    if(deptID=="-1"){
+    if(deptID==null ){deptID=-1;}
+    if(locID==null){locID=-1;}
+    if(searchStr==""){searchStr=-1;}
+
+    console.log("filters,search ",deptID,locID,searchStr);
+    if(deptID=="-1" && locID=="-1"){
         generateEmpTable();
         return;
     }
@@ -270,10 +269,11 @@ $('#filterDept').on('change',function(){
         type: 'POST',
         data: {
             deptID: deptID,
+            locID: locID,
             searchStr:searchStr
         },
         success: (response) => {
-            console.log("seacrch names result", response.data);
+            console.log("search names result", response.data);
             let tableDetails = response.data;
             const {
                 tableHeaders,
@@ -305,7 +305,7 @@ $('#filterLocBtn').on('click',function(){
         type: 'POST',
         success: (response) => {
             let locations = response.data.loc;
-            let optionlv = `<option value="-1">---Select Location---</option>`;
+            let optionlv = `<option value="-1">---All Locations---</option>`;
             locations.forEach(l => {
                 console.log(l.name);
                 optionlv += `<option value=${l.id}>${l.name}</option>`;
@@ -328,11 +328,17 @@ $('#filterLocBtn').on('click',function(){
 
 $('#filterLoc').on('change',function(){
     document.getElementById('employeeTable').length = 0;
+    let deptID = $('#filterDept').val();
     let locID = $('#filterLoc').val();
     let searchStr=$('#nameToSearch').val();
     searchStr=searchStr.toUpperCase();
     console.log("search name",searchStr);
-    if(locID=="-1"){
+    if(deptID==null ){deptID=-1;}
+    if(locID==null){locID=-1;}
+    if(searchStr==""){searchStr=-1;}
+
+
+    if(locID=="-1" && locID=="-1"){
         generateEmpTable();
         return;
     }
@@ -342,6 +348,7 @@ $('#filterLoc').on('change',function(){
         type: 'POST',
         data: {
             locID: locID,
+            deptID: deptID,
             searchStr:searchStr
         },
         success: (response) => {
@@ -376,7 +383,7 @@ $('#empInsertBtn').on('click', function () {
         type: 'POST',
         success: (response) => {
             let departments = response.data.dept;
-            let optiondv = `<option value="">---Select Department---</option>`;
+            let optiondv ;//= `<option value=""></option>`;
             departments.forEach(d => {
                 optiondv += `<option value=${d.id}>${d.Department}</option>`;
             });
@@ -404,7 +411,7 @@ $('#deptInsertBtn').on('click', function () {
         type: 'POST',
         success: (response) => {
             let locations = response.data.loc;
-            let optionlv = `<option value="">---Select Location---</option>`;
+            let optionlv;// = `<option value=""></option>`;
             locations.forEach(l => {
                 optionlv += `<option value=${l.id}>${l.name}</option>`;
             });
@@ -483,6 +490,7 @@ $("#empInsertForm").submit(function(event) {
         let lname = $('#inputLN').val();
         let email = $('#inputEmail').val();
         let departmentID = $('#inputDept').val();
+        let jobTitle=$('#inputJob').val();
     
         
         console.log("to insert fname,lname,email,departmentID: ", fname, lname, email, departmentID);
@@ -495,6 +503,7 @@ $("#empInsertForm").submit(function(event) {
                 lastName: lname,
                 email: email,
                 departmentID: departmentID,
+                jobTitle:jobTitle
             },
             success: (response) => {
                 if (response.data == 0) {
@@ -565,12 +574,15 @@ $('#nameToSearch').on("keyup", function (event) {
     let dfilter=$('#filterDept').val();
     let lfilter=$('#filterLoc').val();
     console.log("filters ",dfilter,lfilter);
+    if(dfilter==null){dfilter=-1};
+    if(lfilter==null){lfilter=-1};
+    console.log("filters ",dfilter,lfilter);
     document.getElementById('employeeTable').length = 0;
     let s = $(this).val();
-    if(s!==null){
+    if(s!=null){
 
-    let search = s.toUpperCase();
-    $.ajax({
+        let search = s.toUpperCase();
+        $.ajax({
         url: './assets/dist/php/searchAll.php',
         type: 'POST',
         data: {
@@ -594,9 +606,10 @@ $('#nameToSearch').on("keyup", function (event) {
             console.log(jqXHR.responseText);
             console.log(textStatus);
         }
-    });
-}
+        });
+    }
 else{
+
     generateEmpTable();
 }
 })
@@ -641,14 +654,19 @@ else{
 //////////updating////////////
 //////updating personnel names,email
 function updatePersonnel(details) {
+    console.log("details",details);
     let id = details['id'];
     let fname = details['firstName'];
     let lname = details['lastName'];
     let email = details['email'];
+    let jobTitle = details['jobTitle'];
     let department = details['dID'];
+    let deptname=details['department'];
+    deptname+="(current)";
     $('#updateFN').val(fname);
     $('#updateLN').val(lname);
     $('#updateEmail').val(email);
+    $('#updateJob').val(jobTitle);
     
     document.getElementById('updateDept').options.length = 0;
  
@@ -657,7 +675,7 @@ function updatePersonnel(details) {
         type: 'POST',
         success: (response) => {
             let departments = response.data.dept;
-            let optiondv = `<option value="-1">...Select..</option>`;
+            let optiondv;// = `<option value=department>${deptname}</option>`;//set to current dept
             departments.forEach(d => {
                 optiondv += `<option value=${d.id}>${d.Department}</option>`;
             });
@@ -684,6 +702,7 @@ function updatePersonnel(details) {
         fname = $('#updateFN').val();
         lname = $('#updateLN').val();
         email = $('#updateEmail').val();
+        jobTitle = $('#updateJob').val();
         if(fname=="" ||lname=="" ||email=="" ||deptid==""){
             $('#message').html("Cannot update to null values");
             $('#messageModal').modal('show');
@@ -698,7 +717,8 @@ function updatePersonnel(details) {
                 fname: fname,
                 lname: lname,
                 email: email,
-                departmentID: deptid
+                departmentID: deptid,
+                jobTitle: jobTitle
             },
             success: (response) => {
                 if (response.status.name == "ok") {
@@ -738,7 +758,7 @@ function updateDepartment(details) {
         type: 'POST',
         success: (response) => {
             let locations = response.data.loc;
-            let optionlv = `<option value="">---Select Location---</option>`;
+            let optionlv;// = `<option value=""></option>`;
             locations.forEach(l => {
                 console.log(l.name);
                 optionlv += `<option value=${l.id}>${l.name}</option>`;
@@ -783,7 +803,9 @@ function updateDepartment(details) {
                 if (response.status.name == "ok") {
                     $('#message').html("Updated department successfully");
                     $('#messageModal').modal('show');
+                    generateEmpTable();
                     generateDeptTable();
+                    generateLocTable();
                 }
                 else {
                     alert("could not update");
@@ -836,6 +858,8 @@ function updateLocation(details) {
                 if (response.status.name == "ok") {
                     $('#message').html("Updated location successfully");
                     $('#messageModal').modal('show');
+                    generateEmpTable();
+                    generateDeptTable();
                     generateLocTable();
                 }
                 else {
@@ -949,49 +973,7 @@ function deleteFromDepartment(details) {
     
 }
 
-////delete from location
-///deleteLocationDependencyCheck.php
 
-// function deleteFromLocation(details) {
-//     let id = details['id'];
-//     let d = details['name'];
-//     $('#alertMessageL').html("Do you want to delete the location record:");
-//     $('#deleteObjectL').html(d);
-//     $('#alertModalL').modal('show');
-
-//     $('#locdeleteYes').on('click', function () {
-//         $.ajax({
-//             url: './assets/dist/php/deleteLocationByID.php',
-//             type: 'POST',
-//             data: {
-//                 id: id
-//             },
-//             success: (response) => {
-
-//                 if (response.data == -1) {
-//                     $('#message').html("Location deleted");
-//                     $('#messageModal').modal('show');
-//                     generateLocTable();
-//                 }
-//                 else {
-//                     console.log("dependents", response.data);
-//                     let m = "Cannot delete location !! ";
-//                     m += response.data;
-//                     m += "  department(s) are attached to it.(First delete all attached department(s))";
-//                     console.log(m);
-//                     $('#message').html(m);
-//                     $('#messageModal').modal('show');
-//                 }
-//             },
-//             error: function (jqXHR, textStatus, errorThrown) {
-//                 console.log("failed");
-//                 console.log(errorThrown);
-//                 console.log(jqXHR.responseText);
-//                 console.log(textStatus);
-//             }
-//         });
-//     });
-// }
 function deleteFromLocation(details) {
     let id = details['id'];
     let d = details['name'];

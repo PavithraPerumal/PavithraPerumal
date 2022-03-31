@@ -3,8 +3,11 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <meta name="author" content="Pavithra Perumal">
+  <meta name="description" content="Application to maintain Company diectory portal-Employee, Department and Location data can be inserted, edited, deleted and searched for information ">
   <title>Company Directory Portal</title>
    <!-- fav icon-->
    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -58,25 +61,25 @@
             <nav class="navbar navbar-dark bg-dark p-2">
               <!-- Navbar content -->
 
-              <form class="form-inline">
-                <button type="button" class="btn btn-primary" id="refreshE" role="button" 
+              <div >
+                <button type="button" class="btn btn-primary active" id="refreshE" role="button" 
                    title="Refresh"><i class="bi bi-arrow-clockwise"></i></button>
-               </form>
+              </div>
 
-              <form class="form-inline">
-                <button type="button" class="btn btn-primary" id="empInsertBtn" role="button" data-bs-toggle="tootip"
-                  data-target="#empInsertModal" title="Insert"><i class="bi bi-plus-square-fill" ></i></button>
-               </form>
+              <div >
+                <button type="button" class="btn btn-primary active" id="empInsertBtn"  data-bs-toggle="tootip"
+                  data-target="#empInsertModal" title="Insert"><i class="bi bi-plus" ></i></button>
+              </div>
+s
+              <div >
+               <button type="button" class="btn btn-primary active" id="filterDeptBtn" role="button" data-bs-toggle="tootip"
+               data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-funnel-fill"></i>Department</button>
+              </div>
 
-              <form class="form-inline">
-               <button type="button" class="btn btn-primary" id="filterDeptBtn" role="button" data-bs-toggle="tootip"
-               data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-grid-3x2-gap-fill"></i></button>
-               </form>
-
-               <form class="form-inline">
-                <button type="button" class="btn btn-primary" id="filterLocBtn" role="button" data-bs-toggle="tootip"
-                data-target="#locfilterModal" title="Filter by Location"><i class="bi bi-geo-alt-fill"></i></button>
-                </form>
+               <div >
+                <button type="button" class="btn btn-primary active" id="filterLocBtn" role="button" data-bs-toggle="tootip"
+                data-target="#locfilterModal" title="Filter by Location"><i class="bi bi-funnel-fill"></i>Location</button>
+               </div>
               <form class="form-inline">
 
                 <div class="input-group">
@@ -105,7 +108,7 @@
 
               <form class="form-inline">
                 <button type="button" class="btn btn-primary" id="deptInsertBtn" role="button" data-bs-toggle="collapse"
-                  data-target="#deptInsertModal" title="Insert"><i class="bi bi-plus-square-fill"></i></button>
+                  data-target="#deptInsertModal" title="Insert"><i class="bi bi-plus"></i></button>
                   
               </form>
               <form class="form-inline">
@@ -127,7 +130,7 @@
             <nav class="navbar navbar-dark bg-dark p-2">
               <form class="form-inline">
                 <button type="button" class="btn btn-primary" id="locInsertBtn" role="button" data-bs-toggle="tooltip"
-                  data-target="#locInsertModal" title="Insert"><i class="bi bi-plus-square-fill"></i></button>
+                  data-target="#locInsertModal" title="Insert"><i class="bi bi-plus"></i></button>
               </form>
               
             </nav>
@@ -150,38 +153,39 @@
               </button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="empInsertForm">
-                <div class="form-row">
-                  <div class="form-group col-md-8">
+                <form class="needs-validation row g-3" id="empInsertForm">
+
+                  <div class="col-md-6">
                     <label for="inputFN">FirstName</label>
-                    <input type="text" class="form-control" id="inputFN" placeholder="FirstName"  pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" required>
+                    <input type="text" class="form-control" id="inputFN"   pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" required>
                   </div>
-                  <div class="form-group col-md-8">
+
+                  <div class="col-md-6">
                     <label for="inputLN">LastName</label>
-                    <input type="text" class="form-control" id="inputLN" placeholder="LastName" pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}" title="letters/diacritics (max 20)"required>
+                    <input type="text" class="form-control" id="inputLN"  pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}" title="letters/diacritics (max 20)"required>
                   </div>
-                </div>
-                <div class="form-group col-md-8">
-                  <label for="inputEmail">Email</label>
-                  <input type="email" class="form-control" id="inputEmail" placeholder="abc@xyz" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" size="30" title="This field is mandatory"required>
-                </div>
                 
-                <div class="form-row">
-                  <div class="form-control col-md-8">
+                  <div class="col-md-6">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" class="form-control" id="inputEmail"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" size="30" title="Eg: aa@bb.cc"required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="inputJob">Job Title</label>
+                    <input type="text" class="form-control" id="inputJob"  pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}" title="Job Title(minimum 2 letters)">
+                  </div>
+               
+                  <div class="col-md-6">
                     <label for="inputDept">Department</label>
                     <select id="inputDept" class="form-select" required>
-
                     </select>
                   </div>
-                  
-
-                </div>
-
-                <button type="submit" class="btn btn-primary" id="empSubmitBtn" >Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </form>
-            </div>
-            
+                  <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary" id="empSubmitBtn" >Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
           </div>
         </div>
       </div>
@@ -196,23 +200,23 @@
               </button>
             </div>
             <div class="modal-body">
-              <form class="needs-validation" id="deptInsertForm">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
+              <form class="needs-validation row g-3" id="deptInsertForm">
+                
+                  <div class="col-md-6">
                     <label for="deptName">Name</label>
-                    <input type="text" class="form-control" id="deptName" placeholder="Name" pattern="[a-z]{1-20}" title="letters only(max 20)" required>
+                    <input type="text" class="form-control" id="deptName"  pattern="[a-z]{1-20}" title="letters only(max 20)" required>
                   </div>
 
-                </div>
 
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                   <label for="inputLocation">Location</label>
                   <select id="inputLocation" class="form-select" required>
                   </select>
                 </div>
-
-                <button type="submit" class="btn btn-primary" id="deptSubmitBtn">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="col-12 text-end">
+                  <button type="submit" class="btn btn-primary" id="deptSubmitBtn">Save</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
               </form>
             </div>
             
@@ -232,15 +236,16 @@
             <div class="modal-body">
               <form class="needs-validation" id="locInsertForm">
                 <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-8">
                     <label for="locName">Name</label>
-                    <input type="text" class="form-control" id="locName" placeholder="Name" pattern="[a-z]{1-20}" title="letters only(max 20)"required>
+                    <input type="text" class="form-control" id="locName"  pattern="[a-z]{1-20}" title="letters only(max 20)"required>
                   </div>
 
                 </div>
-
-                <button type="submit" class="btn btn-primary" id="locSubmitBtn" >Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="col-12 text-end">
+                   <button type="submit" class="btn btn-primary" id="locSubmitBtn" >Save</button>
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
               </form>
             </div>
            
@@ -258,37 +263,35 @@
               </button>
             </div>
             <div class="modal-body">
-              <div class="needs-validation" id="empUpdateForm">
-                <div class="form-group row">
-                  <label for="updateFN" class="col-sm-2 col-form-label formlabelBold">First Name</label>
-                  <div class="col-sm-10">
+              <div class="needs-validation row g-3" id="empUpdateForm">
+                <div class="col-md-6">
+                  <label for="updateFN" >First Name</label>
                     <input type="text" class="form-control" id="updateFN" pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" >
-                  </div>
                 </div>
-                <div class="form-group row">
-                  <label for="updateLN" class="col-sm-2 col-form-label formlabelBold">Last Name</label>
-                  <div class="col-sm-10">
+                <div class="col-md-6">
+                  <label for="updateLN" >Last Name</label>
                     <input type="text" class="form-control" id="updateLN" pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)">
-                  </div>
                 </div>
-                <div class="form-group row">
-                  <label for="updateEmail" class="col-sm-2 col-form-label formlabelBold">Email</label>
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" id="updateEmail" placeholder="Enter Email id (Eg:abc@xyz)" >
-                  </div>
+                <div class="col-md-6">
+                  <label for="updateEmail" >Email</label>
+                    <input type="email" class="form-control" id="updateEmail" title="Email id (Eg:abc@xyz.pq)" >
                 </div>
-                <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="updateJob" >Job Title</label>
+                    <input type="text" class="form-control" id="updateJob" title="Job Title" >
+                </div>
+                <div class="col-md-6">
                   <label for="updateDept" class="col-sm-2 col-form-label formlabelBold">Department</label>
                   <div class="form-group col-sm-10">
                     <select id="updateDept" class="form-control"> </select>
                   </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary" id="empUpdateYes" >Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div><!--form-->
+                <div class="col-12 text-end">
+                  <button type="submit" class="btn btn-primary" id="empUpdateYes" >Save</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
             </div>
-           
           </div>
         </div>
       </div>
@@ -303,28 +306,26 @@
               </button>
             </div>
             <div class="modal-body">
-              <div class="needs-validation" id="depUpdateForm">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
+              <div class="needs-validation row g-3" id="depUpdateForm">
+                
+                  <div class="col-md-6">
                     <label for="updatedeptname">Name</label>
                     <input type="text" class="form-control" id="updatedeptname" >
                   </div>
                   <!-- </div> -->
 
-                  <div class="form-group col-md-6">
+                  <div class=" col-md-6">
                     <label for="updateNewLocation">Location</label>
                     <select id="updateNewLocation" class="form-control">
-
                     </select>
                   </div>
 
+                <div class="col-12 text-end">
+                  <button type="submit" class="btn btn-primary" id="updateYes" >Update</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
-
-                <button type="submit" class="btn btn-primary" id="updateYes" >Update</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -334,24 +335,22 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Update Location</h5>
-              <span aria-hidden="true" data-bs-dismiss="modal" aria-label="Close">
-                <i class="bi bi-x-square-fill"></i>
-              </span>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="modal-body">
-              <div class="needs-validation" id="depUpdateForm">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="updatelocname">Name</label>
-                    <input type="text" class="form-control" id="updatelocname"  >
+               <div class="needs-validation row g-3" id="depUpdateForm">
+                  <div class="col-md-6">
+                      <label for="updatelocname">Name</label>
+                      <input type="text" class="form-control" id="updatelocname"  >
                   </div>
+                  <div class="col-12 text-end">
+                      <button type="submit" class="btn btn-primary" id="updateLocYes" data-bs-dismiss="modal">Save</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary" id="updateLocYes" data-bs-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-              </div>
-            </div>
-         
+             </div>
           </div>
         </div>
       </div>

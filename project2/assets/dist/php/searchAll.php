@@ -36,25 +36,28 @@
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 	$dfilter=$_REQUEST['dfilter'];
 	$lfilter=$_REQUEST['lfilter'];
-	if(($dfilter!=null || $dfilter!="-1") && ($lfilter!=null || $lfilter!="-1")){
-		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id= ? AND l.id=? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ) ORDER BY p.lastName, p.firstName, d.name, l.name');
-		$p=$_REQUEST['search'];
-		$param = "%".$p."%";
-		$query->bind_param("iisss",$dfilter, $lfilter, $param ,$param,$param);
-	}
-	else if(($dfilter==null || $dfilter=="-1")&& ($lfilter==null || $lfilter=="-1")){
+	print_r($dfilter,$lfilter);
+	if( $dfilter=="-1" && $lfilter=="-1"){
 		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
 		$p=$_REQUEST['search'];
 		$param = "%".$p."%";
 		$query->bind_param("sss", $param ,$param,$param);
 	}
-	else if( $lfilter==null || $lfilter=="-1"){
+
+	 if( $dfilter!="-1" && $lfilter!="-1"){
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id= ? AND l.id=? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ) ORDER BY p.lastName, p.firstName, d.name, l.name');
+		$p=$_REQUEST['search'];
+		$param = "%".$p."%";
+		$query->bind_param("iisss",$dfilter, $lfilter, $param ,$param,$param);
+	}
+	 
+	 if( $dfilter!="-1" && $lfilter=="-1"){
 		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id= ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ) ORDER BY p.lastName, p.firstName, d.name, l.name');
 		$p=$_REQUEST['search'];
 		$param = "%".$p."%";
 		$query->bind_param("isss",$dfilter, $param ,$param,$param);
 	}
-	else if ($dfilter==null || $dfilter=="-1"){
+	 if ($lfilter!="-1" && $dfilter=="-1"){
 		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email, d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE l.id= ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ? ) ORDER BY p.lastName, p.firstName, d.name, l.name');
 		$p=$_REQUEST['search'];
 		$param = "%".$p."%";

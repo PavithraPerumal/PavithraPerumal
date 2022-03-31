@@ -36,16 +36,15 @@
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
-	$query1=$conn->prepare('SELECT COUNT(*) DEPENDENCY_COUNT FROM personnel WHERE email = ?');
+	$query1=$conn->prepare('SELECT COUNT(id) DEPENDENCY_COUNT FROM personnel WHERE email = ?');
 	$query1->bind_param("s", $_REQUEST['email']);
 	$query1->execute();
 	$result1 = $query1->get_result();
 	$row1 = mysqli_fetch_assoc($result1);
 	if ($row1['DEPENDENCY_COUNT']==0){
-		$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, email, departmentID) VALUES(?,?,?,?)');
+		$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, email, departmentID,jobTitle) VALUES(?,?,?,?,?)');
 
-		$query->bind_param("sssi", $_REQUEST['firstName'],$_REQUEST['lastName'],$_REQUEST['email'], $_REQUEST['departmentID']);
-
+		$query->bind_param("sssis", $_REQUEST['firstName'],$_REQUEST['lastName'],$_REQUEST['email'], $_REQUEST['departmentID'],$_REQUEST['jobTitle']);
 		$query->execute();
 	
 		if (false === $query) {
