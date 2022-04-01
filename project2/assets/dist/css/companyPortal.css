@@ -21,7 +21,7 @@ th {
 
 .table-custom-scroll {
   overflow-y: scroll;
-  height: 42rem;
+  height: 100vh;
 }
 .bd-placeholder-img {
   font-size: 1.125rem;  
