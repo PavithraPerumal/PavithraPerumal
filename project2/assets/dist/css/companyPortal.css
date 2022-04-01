@@ -1,5 +1,6 @@
 #employeeTable {
   margin-top: 1rem;
+  
 }
 
 #departmentTable {
@@ -8,6 +9,19 @@
 
 #locationTable {
   margin-top: 1rem;
+}
+
+
+th {
+  
+  position: sticky;
+  top: 0; 
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+.table-custom-scroll {
+  overflow-y: scroll;
+  height: 42rem;
 }
 .bd-placeholder-img {
   font-size: 1.125rem;  
@@ -85,9 +99,18 @@ tr > td {
 .form-group {
   margin-bottom: 1rem;
 }
-.navbar{
-  align-items:flex-start;
-}
-/* #inputDept { 
-  width: 21rem;
+
+
+
+/* body{
+  padding-top: 70px; 
+} */
+/* .nav{
+  position: fixed; top: 4rem; z-index: 1;
+
+} */
+
+/* .navbar{
+  position: fixed; top: 5rem;
+
 } */

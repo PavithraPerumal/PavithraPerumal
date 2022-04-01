@@ -4,7 +4,8 @@ const generateHeader = (requiredTableColumns) => {
     requiredTableColumns.forEach(Column => {
         tableHeadersRows += `<th>${Column}</th>`
     });
-    return `<tr>${tableHeadersRows}<th></th></tr>`;
+    tableHeadersRows += `<th>Actions</th>`;
+    return `<tr>${tableHeadersRows}</tr>`;
 };
 
 function onEdit(details, type) {
@@ -698,7 +699,8 @@ function updatePersonnel(details) {
     $('#empUpdateYes').on('click', function () {
 
         $('#empUpdateModal').modal('hide');
-        let deptid = document.getElementById('updateDept').value;
+       // let deptid = document.getElementById('updateDept').value;
+        let deptid=$('#updateDept').val();
         fname = $('#updateFN').val();
         lname = $('#updateLN').val();
         email = $('#updateEmail').val();

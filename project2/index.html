@@ -26,60 +26,60 @@
 <body>
   <div id="preloader"></div> 
   <header>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
+    <nav class="navbar navbar-dark bg-dark p-0 shadow-sm">
       <div class="container">
         <a href="#" class="navbar-brand d-flex align-items-left">
           
           <strong>Company Directory Portal</strong>
         </a>
+        <div class="row py-md-5">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active " id="home-tab" data-bs-toggle="tab" data-bs-target="#employee" type="button"
+                role="tab" aria-controls="home" aria-selected="true">Employee</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#department" type="button"
+                role="tab" aria-controls="profile" aria-selected="false">Department</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                role="tab" aria-controls="contact" aria-selected="false">Location</button>
+            </li>
+          </ul>
+        
+        </div>
       </div>
-    </div>
+    </nav>
   </header>
 
   <main>
     <section class="py-5 text-center container ">
-      <div class="row py-lg-5">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#employee" type="button"
-              role="tab" aria-controls="home" aria-selected="true">Employee</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#department" type="button"
-              role="tab" aria-controls="profile" aria-selected="false">Department</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-              role="tab" aria-controls="contact" aria-selected="false">Location</button>
-          </li>
-        </ul>
-
-
+      
         <div class="tab-content" id="myTabContent">
           
           <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="home-tab">
-            <nav class="navbar navbar-dark bg-dark p-2">
+            <nav class="navbar navbar-dark bg-dark  p-2">
               <!-- Navbar content -->
-
-              <div >
+              <div class="container">
+              
                 <button type="button" class="btn btn-primary active" id="refreshE" role="button" 
                    title="Refresh"><i class="bi bi-arrow-clockwise"></i></button>
-              </div>
+             
 
-              <div >
                 <button type="button" class="btn btn-primary active" id="empInsertBtn"  data-bs-toggle="tootip"
                   data-target="#empInsertModal" title="Insert"><i class="bi bi-plus" ></i></button>
-              </div>
+              
 s
-              <div >
+              
                <button type="button" class="btn btn-primary active" id="filterDeptBtn" role="button" data-bs-toggle="tootip"
                data-target="#deptfilterModal" title="Filter by Department"><i class="bi bi-funnel-fill"></i>Department</button>
-              </div>
+              
 
-               <div >
+              
                 <button type="button" class="btn btn-primary active" id="filterLocBtn" role="button" data-bs-toggle="tootip"
                 data-target="#locfilterModal" title="Filter by Location"><i class="bi bi-funnel-fill"></i>Location</button>
-               </div>
+               
               <form class="form-inline">
 
                 <div class="input-group">
@@ -90,17 +90,19 @@ s
                     aria-label="Username" aria-describedby="basic-addon1">
                 </div>
               </form>
-              
+            </div>
 
             </nav>
-            <table id="employeeTable" class="table table-dark table-striped table-bordered m-10">
-            </table>
-
+             <div class="table-responsive p=0 table-custom-scroll"  >
+               <table id="employeeTable" class="table table-dark table-striped table-bordered m-10">
+                </table>
+              </div>
           </div>
           <!---department-->
           <div class="tab-pane fade " id="department" role="tabpanel" aria-labelledby="profile-tab">
 
-            <nav class="navbar navbar-dark bg-dark p-2">
+            <nav class="navbar navbar-dark bg-dark  p-2">
+              <div class="container">
               <form class="form-inline">
                 <button type="button" class="btn btn-primary" id="refreshD" role="button" 
                    title="Refresh"><i class="bi bi-arrow-clockwise"></i></button>
@@ -121,22 +123,26 @@ s
                     aria-label="Username" aria-describedby="basic-addond">
                 </div>
               </form>
+            </div>
             </nav>
-
-            <table id="departmentTable" class="table table-dark table-striped table-bordered m-10">
-            </table>
+            <div class="table-responsive p=0 table-custom-scroll"  >
+              <table id="departmentTable" class="table table-dark table-striped table-bordered m-10">
+              </table>
+            </div>
           </div>
           <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            <nav class="navbar navbar-dark bg-dark p-2">
+            <nav class="navbar navbar-dark bg-dark  p-2">
+              <div class="container">
               <form class="form-inline">
                 <button type="button" class="btn btn-primary" id="locInsertBtn" role="button" data-bs-toggle="tooltip"
                   data-target="#locInsertModal" title="Insert"><i class="bi bi-plus"></i></button>
               </form>
-              
+            </div>
             </nav>
-
-            <table id="locationTable" class="table table-dark table-striped table-bordered m-10">
-            </table>
+            <div class="table-responsive p=0 table-custom-scroll"  >
+               <table id="locationTable" class="table table-dark table-striped table-bordered m-10">
+               </table>
+               </div>
           </div>
         </div>
       </div>
