@@ -164,7 +164,7 @@ function generateEmpTable() {
 //generate department table data
 function generateDeptTable() {
     const type = "dept";
-    console.log("generating dept table....");
+    //console.log("generating dept table....");
 
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
@@ -193,7 +193,7 @@ function generateDeptTable() {
 //generate location table
 function generateLocTable() {
     const type = "loc";
-    console.log("generating location table....");
+    //console.log("generating location table....");
 
     $.ajax({
         url: './assets/dist/php/getAllDepartments.php',
@@ -705,10 +705,19 @@ function updatePersonnel(details) {
         lname = $('#updateLN').val();
         email = $('#updateEmail').val();
         jobTitle = $('#updateJob').val();
+        console.log(/^[A-z],[A-z0-9'\x22\s]{1,20}$/.test(fname));
         if(fname=="" ||lname=="" ||email=="" ||deptid==""){
             $('#message').html("Cannot update to null values");
             $('#messageModal').modal('show');
+        }
+        else if(!fname.match("^[A-zÀ-ž][A-zÀ-ž0-9'\x22\s]{1,20}$") || !lname.match("^[A-zÀ-ž][A-zÀ-ž0-9'\x22\s]{1,20}$")){
            
+            $('#message').html("Cannot update! Name contains invalid characters");
+            $('#messageModal').modal('show');
+        }
+        else if(!email.match("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")){
+            $('#message').html("Cannot update! Email id is of invalid format");
+            $('#messageModal').modal('show');
         }
         else{
         $.ajax({
@@ -723,14 +732,19 @@ function updatePersonnel(details) {
                 jobTitle: jobTitle
             },
             success: (response) => {
-                if (response.status.name == "ok") {
-                    $('#message').html("Updated record successfully");
+                if (response.data == 0) {
+                    $('#message').html("Updated employee successfully");
                     $('#messageModal').modal('show');
                     generateEmpTable();
-
+                    generateDeptTable();
+                    generateLocTable();
                 }
                 else {
-                    alert("could not update");
+                    $('#message').html("cannot update! Employee email ID already exists.");
+                    $('#messageModal').modal('show');
+                    generateEmpTable();
+                    generateDeptTable();
+                    generateLocTable();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -790,7 +804,10 @@ function updateDepartment(details) {
         if(name=="" ||locationID==null){
             $('#message').html("Cannot update to null values");
             $('#messageModal').modal('show');
-           
+        }
+        else if(!name.match("[a-zA-Z]{1,20}$")){
+            $('#message').html("Cannot update! Department contains invalid characters");
+            $('#messageModal').modal('show');
         }
         else{
         $.ajax({
@@ -802,7 +819,7 @@ function updateDepartment(details) {
                 locationID: locationID
             },
             success: (response) => {
-                if (response.status.name == "ok") {
+                if (response.data == 0) {
                     $('#message').html("Updated department successfully");
                     $('#messageModal').modal('show');
                     generateEmpTable();
@@ -810,11 +827,15 @@ function updateDepartment(details) {
                     generateLocTable();
                 }
                 else {
-                    alert("could not update");
+                    $('#message').html("cannot update! Department already exists.");
+                    $('#messageModal').modal('show');
+                    generateEmpTable();
+                    generateDeptTable();
+                    generateLocTable();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log("failed");
+                console.log("failed dept update");
                 console.log(errorThrown);
                 console.log(jqXHR.responseText);
                 console.log(textStatus);
@@ -844,8 +865,10 @@ function updateLocation(details) {
         if(name==""){
             $('#message').html("Cannot update to null values");
             $('#messageModal').modal('show');
-            
-          
+        }
+        else if(!name.match("[a-zA-Z]{1,20}$")){
+            $('#message').html("Cannot update! Location name contains invalid characters");
+            $('#messageModal').modal('show');
         }
         else{
         $.ajax({
@@ -857,7 +880,7 @@ function updateLocation(details) {
             },
             success: (response) => {
                 console.log("seacrch names result", response.data);
-                if (response.status.name == "ok") {
+                if (response.data == 0) {
                     $('#message').html("Updated location successfully");
                     $('#messageModal').modal('show');
                     generateEmpTable();
@@ -865,7 +888,11 @@ function updateLocation(details) {
                     generateLocTable();
                 }
                 else {
-                    alert("could not update");
+                    $('#message').html("cannot update! Location already exists.");
+                    $('#messageModal').modal('show');
+                    generateEmpTable();
+                    generateDeptTable();
+                    generateLocTable();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -894,7 +921,7 @@ function deleteFromPersonnel(details) {
     $('#alertMessageE').html("Do you want to delete  personnel record of ");
     $('#deleteObjectE').html(n);
     $('#alertModalE').modal('show');
-
+    console.log("del emp : ",id);
     $('#empdeleteYes').on('click', function () {
         $.ajax({
             url: './assets/dist/php/deletePersonnelByID.php',

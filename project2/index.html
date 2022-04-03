@@ -163,12 +163,12 @@ s
 
                   <div class="col-md-6">
                     <label for="inputFN">FirstName</label>
-                    <input type="text" class="form-control" id="inputFN"   pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" required>
+                    <input type="text" class="form-control" id="inputFN"   pattern="[A-zÀ-ž][A-z0-9À-ž'\x22\s]{1,20}"title="letters/diacritics (max 20)" required>
                   </div>
 
                   <div class="col-md-6">
                     <label for="inputLN">LastName</label>
-                    <input type="text" class="form-control" id="inputLN"  pattern="[a-zA-ZÀ-ž][A-z0-9À-ž'\x22\s]{1,20}" title="letters/diacritics (max 20)"required>
+                    <input type="text" class="form-control" id="inputLN"  pattern="[A-zÀ-ž][A-z0-9À-ž'\x22\s]{1,20}" title="letters/diacritics (max 20)"required>
                   </div>
                 
                   <div class="col-md-6">
@@ -210,7 +210,7 @@ s
                 
                   <div class="col-md-6">
                     <label for="deptName">Name</label>
-                    <input type="text" class="form-control" id="deptName"  pattern="[a-z]{1-20}" title="letters only(max 20)" required>
+                    <input type="text" class="form-control" id="deptName"  pattern="[a-zA-Z]{1,20}" title="letters only(max 20)" required>
                   </div>
 
 
@@ -241,13 +241,11 @@ s
             </div>
             <div class="modal-body">
               <form class="needs-validation" id="locInsertForm">
-                <div class="form-row">
                   <div class="form-group col-md-8">
                     <label for="locName">Name</label>
-                    <input type="text" class="form-control" id="locName"  pattern="[a-z]{1-20}" title="letters only(max 20)"required>
+                    <input type="text" class="form-control" id="locName"  pattern="[a-zA-Z]{1,20}" title="letters only(max 20)"required>
                   </div>
 
-                </div>
                 <div class="col-12 text-end">
                    <button type="submit" class="btn btn-primary" id="locSubmitBtn" >Save</button>
                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

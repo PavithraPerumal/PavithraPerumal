@@ -37,32 +37,31 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 	
-	$query = $conn->prepare('UPDATE  personnel set firstName=?, lastName=?, email=?, departmentID=?, jobTitle=? WHERE id=?');
-
-	$query->bind_param("sssisi", $_REQUEST['fname'],$_REQUEST['lname'],$_REQUEST['email'], $_REQUEST['departmentID'],$_REQUEST['jobTitle'],$_REQUEST['id']);
-
-	$query->execute();
-	
-	if (false === $query) {
-
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
-
-		mysqli_close($conn);
-
-		echo json_encode($output); 
-
-		exit;
-
+	$query1=$conn->prepare('SELECT COUNT(id) DEPENDENCY_COUNT FROM personnel WHERE email = ? AND id != ?');
+	$query1->bind_param("si", $_REQUEST['email'],$_REQUEST['id']);
+	$query1->execute();
+	$result1 = $query1->get_result();
+	$row1 = mysqli_fetch_assoc($result1);
+	if ($row1['DEPENDENCY_COUNT']==0){
+		$query = $conn->prepare('UPDATE  personnel set firstName=?, lastName=?, email=?, departmentID=?, jobTitle=? WHERE id=?');
+		$query->bind_param("sssisi", $_REQUEST['fname'],$_REQUEST['lname'],$_REQUEST['email'], $_REQUEST['departmentID'],$_REQUEST['jobTitle'],$_REQUEST['id']);
+		$query->execute();
+		if (false === $query) {
+			$output['status']['code'] = "400";
+			$output['status']['name'] = "executed";
+			$output['status']['description'] = "query failed";	
+			$output['data'] = [];
+			mysqli_close($conn);
+			echo json_encode($output); 
+			exit;
+		}
 	}
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = [];
+	$output['data'] = $row1['DEPENDENCY_COUNT'];
 	
 	mysqli_close($conn);
 

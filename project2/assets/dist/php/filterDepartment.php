@@ -41,23 +41,23 @@
 	$l=$_REQUEST['locID'];
 
 	if($p!="-1" && $l=="-1"){
-		$query = $conn->prepare('SELECT p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ?) ');
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ?) ORDER BY p.lastName');
 		$p=$_REQUEST['searchStr'];
 		$param = "%".$p."%";
 		$query->bind_param("isss", $_POST['deptID'],$param,$param,$param );
 	}
 	if($p=="-1" && $l=="-1"){
-		$query = $conn->prepare('SELECT p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? ');
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? ORDER BY p.lastName');
 		$query->bind_param("i", $_POST['deptID']);
 	}
 	if($p!="-1" && $l!="-1"){
-		$query = $conn->prepare('SELECT p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? AND l.id= ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ?) ');
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? AND l.id= ? AND (UPPER(p.lastName) LIKE ? OR UPPER(p.firstName) LIKE ? OR UPPER(p.email) LIKE ?) ORDER BY p.lastName');
 		$p=$_REQUEST['searchStr'];
 		$param = "%".$p."%";
 		$query->bind_param("iisss", $_POST['deptID'],$l,$param,$param,$param );
 	}
 	if($p=="-1" && $l!="-1"){
-		$query = $conn->prepare('SELECT p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? AND l.id=?');
+		$query = $conn->prepare('SELECT p.id as id, p.lastName, p.firstName, p.jobTitle, p.email,d.id as dID, l.id as lID, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ? AND l.id=? ORDER BY p.lastName');
 		$query->bind_param("ii", $_POST['deptID'],$l);
 		}
 
